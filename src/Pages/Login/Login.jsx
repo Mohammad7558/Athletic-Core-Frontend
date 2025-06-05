@@ -66,8 +66,7 @@ const Login = () => {
           <h2 className="text-3xl font-bold mb-2 text-black">Welcome back!</h2>
           <p className="text-sm text-gray-500 mb-8">
             Simplify your workflow and boost your productivity with{" "}
-            <span className="font-semibold">Tuga’s App</span>. Get started for
-            free.
+            <span className="font-semibold">Athletic-Core App</span>
           </p>
 
           <form onSubmit={handleSignInUser}>

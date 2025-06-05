@@ -4,41 +4,41 @@ import { motion, AnimatePresence } from "framer-motion";
 const slides = [
   {
     id: 1,
-    title: "Creative Solutions",
-    description: "We craft digital experiences that elevate your brand.",
-    image:
-      "https://i.ibb.co/F4W1pRyP/img-1.jpg",
+    title: "Athletic Event Coordination",
+    description:
+      "We manage large-scale sporting events with precision and energy.",
+    image: "https://i.ibb.co/F4W1pRyP/img-1.jpg",
   },
   {
     id: 2,
-    title: "Modern Aesthetics",
-    description: "Designs that speak and inspire action.",
-    image:
-      "https://i.ibb.co/4RNYQ6GN/img-8-min.jpg",
+    title: "Venue & Logistics Setup",
+    description:
+      "From track layouts to audience seating — we handle every detail.",
+    image: "https://i.ibb.co/4RNYQ6GN/img-8-min.jpg",
   },
   {
     id: 3,
-    title: "Performance Focused",
-    description: "Optimized for speed, experience, and accessibility.",
-    image:
-      "https://i.ibb.co/1G6vrytm/img-5-min.jpg",
+    title: "Team & Athlete Support",
+    description:
+      "We ensure athletes and teams have everything they need to perform.",
+    image: "https://i.ibb.co/1G6vrytm/img-5-min.jpg",
   },
 ];
 
-const variants = {
-  enter: { opacity: 0, x: 50 },
-  center: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: -50 },
+const imageVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
 };
 
 const Slider = () => {
   const [[page, direction], setPage] = useState([0, 0]);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      paginate(1); // Go to the next slide
-    }, 5000); // Every 5 seconds
-
-    return () => clearInterval(interval); // Clean up on unmount or update
+      paginate(1);
+    }, 6000);
+    return () => clearInterval(interval);
   }, [page]);
 
   const paginate = (newDirection) => {
@@ -53,63 +53,89 @@ const Slider = () => {
   const currentSlide = slides[page];
 
   return (
-    <div className="w-full h-[80vh] mx-auto mt-10 flex items-center justify-center px-5 ">
-      <div className="flex flex-col-reverse md:flex-row w-full h-full bg-white shadow-xl rounded-3xl overflow-hidden border border-gray-200">
-        {/* Left content */}
-        <div className="w-[45%] flex flex-col justify-center px-10 py-12">
-          <AnimatePresence mode="wait" initial={false} custom={direction}>
-            <motion.div
-              key={currentSlide.id}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="space-y-4"
-            >
-              <h2 className="text-4xl font-bold text-gray-800">
-                {currentSlide.title}
-              </h2>
-              <p className="text-gray-600 text-lg">
-                {currentSlide.description}
-              </p>
-            </motion.div>
-          </AnimatePresence>
+    <motion.div
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="w-full h-screen flex items-center justify-center"
+    >
+      <div className="w-full h-[90vh] flex items-center justify-center px-5">
+        <div className="flex flex-col-reverse md:flex-row w-full h-full bg-white shadow-xl rounded-3xl overflow-hidden border border-gray-200">
+          {/* Left content */}
+          <div className="w-full md:w-[45%] flex flex-col justify-center px-10 py-12">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={currentSlide.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                className="space-y-6"
+              >
+                {/* Title Reveal */}
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -40, opacity: 0 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="overflow-hidden"
+                >
+                  <h2 className="text-4xl font-bold text-gray-800">
+                    {currentSlide.title}
+                  </h2>
+                </motion.div>
 
-          {/* Dots */}
-          <div className="flex space-x-2 mt-6">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setPage([index, index > page ? 1 : -1])}
-                className={`w-2.5 h-2.5 rounded-full transition-all ${
-                  index === page
-                    ? "bg-blue-600 scale-110"
-                    : "bg-gray-300 hover:bg-gray-400"
-                }`}
+                {/* Description Reveal */}
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -40, opacity: 0 }}
+                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+                  className="overflow-hidden"
+                >
+                  <p className="text-gray-600 text-lg">
+                    {currentSlide.description}
+                  </p>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Dots */}
+            <div className="flex space-x-2 mt-6">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setPage([index, index > page ? 1 : -1])}
+                  className={`w-2.5 h-2.5 rounded-full transition-all ${
+                    index === page
+                      ? "bg-blue-600 scale-110"
+                      : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Right image */}
+          <div className="flex-1 relative">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.img
+                key={currentSlide.image}
+                src={currentSlide.image}
+                alt={currentSlide.title}
+                variants={imageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                className="w-full h-full object-cover"
+                draggable={false}
               />
-            ))}
+            </AnimatePresence>
           </div>
         </div>
-
-        {/* Right image */}
-        <div className="flex-1 relative">
-          <AnimatePresence mode="wait" initial={false} custom={direction}>
-            <motion.img
-              key={currentSlide.image}
-              src={currentSlide.image}
-              alt={currentSlide.title}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
-          </AnimatePresence>
-        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
