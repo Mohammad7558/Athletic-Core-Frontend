@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../../../src/assets/Logo.png";
 import { AuthContext } from "../../provider/AuthContext";
+import CustomCursor from "../CustomCursor/CustomCursor";
 
 const Header = () => {
   const [showHeader, setShowHeader] = useState(true);
@@ -32,7 +33,7 @@ const Header = () => {
   );
   const menuItems = (
     <>
-      <li>
+      <li key="home">
         <NavLink to="/" className={({ isActive }) => linkClasses(isActive)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +53,7 @@ const Header = () => {
           {underline}
         </NavLink>
       </li>
-      <li>
+      <li key="events">
         <NavLink
           to="/events"
           className={({ isActive }) => linkClasses(isActive)}
@@ -75,15 +76,42 @@ const Header = () => {
           {underline}
         </NavLink>
       </li>
+      {user && (
+        <li key="add-event">
+          <NavLink
+            to="/add-event"
+            className={({ isActive }) => linkClasses(isActive)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+            Add Event
+            {underline}
+          </NavLink>
+        </li>
+      )}
     </>
   );
+  
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [location.pathname]);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const scrollThreshold = 70; // Adjust this value as needed
+      const scrollThreshold = 70;
 
       if (currentScrollY < 20) {
         setShowHeader(true);
@@ -99,6 +127,7 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -117,6 +146,7 @@ const Header = () => {
       <AnimatePresence>
         {showHeader && (
           <motion.header
+            key="main-header"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
@@ -198,13 +228,13 @@ const Header = () => {
                         <div className="w-10 rounded-full">
                           {user.photoURL ? (
                             <img
-                              src={user.photoURL}
+                              src={user?.photoURL}
                               alt="User"
                               className="w-10 h-10 rounded-full object-cover"
                             />
                           ) : (
                             <div className="w-10 h-10 rounded-full bg-gray-700 text-white flex items-center justify-center font-semibold uppercase">
-                              {user.displayName?.charAt(0) || "U"}
+                              {user.displayName?.charAt(0)}
                             </div>
                           )}
                         </div>
@@ -215,24 +245,25 @@ const Header = () => {
                     <AnimatePresence>
                       {isVisible && (
                         <motion.ul
+                          key="dropdown-menu"
                           initial={{ opacity: 0, scale: 0.95, y: -10 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.95, y: -10 }}
                           transition={{ duration: 0.2 }}
                           className="absolute right-0 mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52 menu"
                         >
-                          <li>
+                          <li key="book-event">
                             <NavLink to="/book-event">📅 Book Event</NavLink>
                           </li>
-                          <li>
+                          <li key="my-bookings">
                             <NavLink to="/my-bookings">📖 My Bookings</NavLink>
                           </li>
-                          <li>
+                          <li key="manage-events">
                             <NavLink to="/manage-events">
                               🛠️ Manage Events
                             </NavLink>
                           </li>
-                          <li>
+                          <li key="logout">
                             <button
                               className="btn mt-4 bg-purple-700 text-white"
                               onClick={handleLogout}
@@ -247,12 +278,14 @@ const Header = () => {
                 ) : (
                   <>
                     <Link
+                      key="login-btn"
                       to="/login"
                       className="btn bg-blue-800 hover:bg-blue-700 text-white"
                     >
                       Login
                     </Link>
                     <Link
+                      key="register-btn"
                       to="/register"
                       className="btn bg-green-700 hover:bg-green-800 text-white"
                     >
@@ -264,8 +297,9 @@ const Header = () => {
             </div>
           </motion.header>
         )}
-        {/* You can open the modal using document.getElementById('ID').showModal() method */}
+        {/* Search Modal */}
         <dialog id="my_modal_3" className="modal p-0">
+          <CustomCursor />
           <div className="modal-box w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden p-0 flex flex-col md:flex-row animate-scale-in">
             {/* Image section - left */}
             <div className="md:w-1/2 w-full h-48 md:h-auto bg-gray-100">
@@ -303,22 +337,7 @@ const Header = () => {
                 <h4 className="text-sm font-medium text-gray-600 mb-2">
                   Popular Tags
                 </h4>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    "Web Design",
-                    "React Developer",
-                    "Logo Design",
-                    "SEO",
-                    "Content Writing",
-                  ].map((tag) => (
-                    <span
-                      key={tag}
-                      className="badge badge-outline text-gray-600 cursor-pointer hover:bg-blue-100 hover:border-blue-300 transition"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                <div className="flex flex-wrap gap-2"></div>
               </div>
 
               {/* Recent Searches */}
@@ -327,9 +346,9 @@ const Header = () => {
                   Recent Searches
                 </h4>
                 <ul className="list-disc list-inside text-gray-500 text-sm space-y-1">
-                  <li>Figma Expert</li>
-                  <li>Shopify Store Setup</li>
-                  <li>Video Editor</li>
+                  <li key="search-1">Figma Expert</li>
+                  <li key="search-2">Shopify Store Setup</li>
+                  <li key="search-3">Video Editor</li>
                 </ul>
               </div>
             </div>
@@ -341,6 +360,7 @@ const Header = () => {
         {isSidebarOpen && (
           <>
             <motion.div
+              key="sidebar-backdrop"
               className="fixed inset-0 bg-black/50 bg-opacity-40 z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -348,6 +368,7 @@ const Header = () => {
               onClick={toggleSidebar}
             />
             <motion.aside
+              key="sidebar"
               initial={{ x: -60, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -60, opacity: 0 }}
@@ -397,7 +418,7 @@ const Header = () => {
                       </div>
                     </div>
                     <ul className="mb-5 space-y-1">
-                      <li>
+                      <li key="my-bookings-mobile">
                         <NavLink
                           to="/my-bookings"
                           className={({ isActive }) =>
@@ -433,7 +454,7 @@ const Header = () => {
                         </NavLink>
                       </li>
 
-                      <li>
+                      <li key="book-event-mobile">
                         <NavLink
                           to="/book-event"
                           className={({ isActive }) =>
@@ -466,7 +487,7 @@ const Header = () => {
                         </NavLink>
                       </li>
 
-                      <li>
+                      <li key="manage-events-mobile">
                         <NavLink
                           to="/manage-events"
                           className={({ isActive }) =>
@@ -523,12 +544,14 @@ const Header = () => {
                 <>
                   <div className="mt-5">
                     <Link
+                      key="login-mobile"
                       to="/login"
                       className="btn btn-wide mb-4 bg-blue-800 text-white hover:bg-blue-500"
                     >
                       Login
                     </Link>
                     <Link
+                      key="register-mobile"
                       to="/register"
                       className="btn btn-wide bg-green-700 text-white"
                     >
