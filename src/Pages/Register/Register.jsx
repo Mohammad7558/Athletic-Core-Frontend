@@ -1,23 +1,25 @@
-import { GoogleAuthProvider } from "firebase/auth";
-import { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { FaEye, FaGoogle } from "react-icons/fa";
-import { LuEyeClosed } from "react-icons/lu";
-import { Link, useLocation, useNavigate } from "react-router";
+import { GoogleAuthProvider } from "firebase/auth";
 import { AuthContext } from "../../provider/AuthContext";
-
-
+import { motion } from "framer-motion";
+import { FaGoogle } from "react-icons/fa";
 
 const Register = () => {
-  const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { createUserWithEmailPass, createUserWithGoogle, setUser, updateUser } =
     useContext(AuthContext);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (location.pathname === "/register") {
+      window.document.title = "Register - Athletic-Core";
+    }
+  }, [location.pathname]);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -26,57 +28,46 @@ const Register = () => {
     const photoLink = form.photoUrl.value;
     const email = form.email.value;
     const password = form.password.value;
-    setPasswordError("");
     const haveUpperCase = /[A-Z]/;
     const haveLowerCase = /[a-z]/;
 
-    if (userName == "") {
-      return toast.error("Enter Your Name");
-    } else if (photoLink == "") {
-      return toast.error("Enter Your Photo Url");
-    } else if (email == "") {
-      return toast.error("Enter Email");
-    } else if (password == "") {
-      return toast.error("Write A Password");
-    } else if (password.length < 6) {
+    if (!userName) return toast.error("Enter Your Name");
+    if (!photoLink) return toast.error("Enter Your Photo Url");
+    if (!email) return toast.error("Enter Email");
+    if (!password) return toast.error("Write A Password");
+    if (password.length < 6)
       return toast.error("Password Must Be 6 Character Long");
-    } else if (!haveLowerCase.test(password)) {
-      return toast.error("Password Must Have An Lowercase");
-    } else if (!haveUpperCase.test(password)) {
+    if (!haveLowerCase.test(password))
+      return toast.error("Password Must Have A Lowercase");
+    if (!haveUpperCase.test(password))
       return toast.error("Password Must Have An Uppercase");
-    }
 
     const toastId = toast.loading("Creating User");
 
     createUserWithEmailPass(email, password)
       .then((result) => {
         const user = result.user;
-        const { uid, email } = user;
-        const newUser = { uid, email };
+        const newUser = { uid: user.uid, email: user.email };
+
         fetch("http://localhost:5000/users", {
           method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
+          headers: { "content-type": "application/json" },
           body: JSON.stringify(newUser),
         })
           .then((res) => res.json())
           .then((data) => console.log(data));
+
         updateUser({ displayName: userName, photoURL: photoLink })
-          .then(() => {
-            setUser({ ...user, displayName: userName, photoURL: photoLink });
-          })
-          .catch((error) => {
-            toast.error(error.message);
-          });
-        toast.dismiss();
+          .then(() =>
+            setUser({ ...user, displayName: userName, photoURL: photoLink })
+          )
+          .catch((error) => toast.error(error.message));
+
         toast.success("User Created Successfully", { id: toastId });
         navigate(from, { replace: true });
-        e.target.reset();
+        form.reset();
       })
-      .catch((error) => {
-        toast.error(error.message, { id: toastId });
-      });
+      .catch((error) => toast.error(error.message, { id: toastId }));
   };
 
   const handleRegisterWithGoogle = () => {
@@ -86,116 +77,233 @@ const Register = () => {
         const user = result.user;
         console.log(user);
         navigate(from, { replace: true });
-        toast.success("User create Successfully", { id: toastId });
+        toast.success("User Created Successfully", { id: toastId });
       })
-      .catch((error) => {
-        toast.error(error.message, { id: toastId });
-      });
+      .catch((error) => toast.error(error.message, { id: toastId }));
   };
 
   return (
-    <div className="relative bg-gray-100 py-20 px-10 overflow-hidden min-h-screen flex items-center justify-center">
-      <div className="absolute -top-32 -left-32 w-[700px] h-[700px] bg-gradient-to-r from-purple-200 via-pink-200 to-yellow-200 opacity-30 blur-3xl animate-pulse rounded-full z-0"></div>
-      <div className="absolute -bottom-32 -right-32 w-[700px] h-[700px] bg-gradient-to-r from-yellow-200 via-green-200 to-blue-200 opacity-30 blur-3xl animate-pulse rounded-full z-0"></div>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 my-10">
+      <div className="w-[85%] bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
+        {/* Left Side Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="p-10 flex flex-col justify-center"
+        >
+          <h2 className="text-3xl font-bold mb-2 text-black">
+            Create an account
+          </h2>
+          <p className="text-sm text-gray-500 mb-8">
+            Join <span className="font-semibold">Athletic-Core</span> and boost
+            your productivity.
+          </p>
 
-      <div className="relative z-10 w-full lg:w-1/3 bg-white p-10 shadow-md rounded-xl">
-        <h2 className="text-2xl font-semibold text-center mb-5">Register</h2>
-        <form onSubmit={handleRegister} className="space-y-4">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Name
+          <form onSubmit={handleRegister}>
+            <label className="text-gray-700 font-medium mb-2 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                />
+              </svg>
+              Your Name <span className="text-red-400">*</span>
             </label>
-            <input
+            <motion.input
               type="text"
-              id="name"
-              className="input w-full rounded-md mb-2"
-              placeholder="Enter your name"
               name="userName"
+              placeholder="Full Name"
+              className="w-full px-5 py-3 border border-gray-300 rounded-full mb-4 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             />
-          </div>
-          <div>
-            <label
-              htmlFor="photoUrl"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Photo URL
+
+            <label className="text-gray-700 font-medium mb-2 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+                />
+              </svg>
+              Photo URL <span className="text-red-400">*</span>
             </label>
-            <input
+            <motion.input
               type="text"
-              id="photoUrl"
-              className="input w-full rounded-md mb-2"
-              placeholder="Enter your photo URL"
               name="photoUrl"
+              placeholder="Photo URL"
+              className="w-full px-5 py-3 border border-gray-300 rounded-full mb-4 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             />
-          </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Email
+
+            <label className="text-gray-700 font-medium mb-2 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M16.5 3.75h-9A2.25 2.25 0 005.25 6v12A2.25 2.25 0 007.5 20.25h9a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0016.5 3.75zM18 6.75l-6 4.5-6-4.5"
+                />
+              </svg>
+              Email <span className="text-red-400">*</span>
             </label>
-            <input
+            <motion.input
               type="email"
-              id="email"
-              className="input w-full rounded-md mb-2"
-              placeholder="Enter your email"
               name="email"
+              placeholder="Email Address"
+              className="w-full px-5 py-3 border border-gray-300 rounded-full mb-4 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Password
+
+            <label className="text-gray-700 font-medium mb-2 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-5a7 7 0 00-14 0v5a2 2 0 002 2z"
+                />
+              </svg>
+              Password <span className="text-red-400">*</span>
             </label>
-            <div className="relative">
-              <input
+            <div className="relative mb-6">
+              <motion.input
                 type={showPassword ? "text" : "password"}
-                id="password"
-                className="w-full rounded-md input"
-                placeholder="Enter your password"
                 name="password"
+                placeholder="Password"
+                className="w-full px-5 py-3 border border-gray-300 rounded-full pr-12 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
               />
-              {showPassword ? (
-                <LuEyeClosed
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-3 right-4 z-10 cursor-pointer"
-                />
-              ) : (
-                <FaEye
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-3 right-4 z-10 cursor-pointer"
-                />
-              )}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-1/2 right-6 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {showPassword ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.98 8.223a10.477 10.477 0 0 0-.97 1.232 1.006 1.006 0 0 0 0 1.09C5.277 13.632 8.388 16.5 12 16.5c1.315 0 2.568-.356 3.675-.98M3 3l18 18"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 9.75a3.75 3.75 0 1 0-6 3"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.458 12C3.732 7.943 7.523 5.25 12 5.25s8.268 2.693 9.542 6.75c-1.274 4.057-5.065 6.75-9.542 6.75S3.732 16.057 2.458 12z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"
+                    />
+                  </svg>
+                )}
+              </button>
             </div>
-            <p className="text-red-500 font-semibold">{passwordError}</p>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.95 }}
+              type="submit"
+              className="w-full bg-black text-white rounded-full py-2 hover:bg-gray-800 transition"
+            >
+              Register
+            </motion.button>
+          </form>
+
+          <div className="my-6 flex items-center">
+            <hr className="flex-grow border-gray-300" />
+            <span className="px-2 text-gray-400 text-sm">or continue with</span>
+            <hr className="flex-grow border-gray-300" />
           </div>
-          <button type="submit" className="w-full btn btn-primary">
-            Register
-          </button>
-        </form>
 
-        <div className="divider pt-4">Or Register With</div>
-        <div className="text-center mt-10 mb-5">
-          <button onClick={handleRegisterWithGoogle} className="btn btn-circle">
-            <FaGoogle />
-          </button>
-          <h1>Google</h1>
-        </div>
+          <div className="flex justify-center space-x-4">
+            <motion.button
+              onClick={handleRegisterWithGoogle}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold"
+            >
+              <FaGoogle className="w-5 h-5" />
+            </motion.button>
+          </div>
 
-        <div className="mt-4">
-          <p className="text-center">
-            Already Have An Account?{" "}
-            <Link className="link text-blue-500" to="/login">
+          <div className="text-center mt-6 text-sm">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-green-600 font-medium hover:underline"
+            >
               Login
             </Link>
-          </p>
-        </div>
+          </div>
+        </motion.div>
+
+        {/* Right Side Image Reveal */}
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="bg-green-50 flex items-center justify-center p-10"
+        >
+          <div className="text-center">
+            <img
+              src="https://i.ibb.co/k7gnwHp/Sign-up-bro.png"
+              alt="Illustration"
+              className="w-full"
+            />
+            <p className="mt-8 text-lg font-medium text-gray-700">
+              Make your work easier and organized
+              <br />
+              with <span className="font-bold">Athletic-Core</span>
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
