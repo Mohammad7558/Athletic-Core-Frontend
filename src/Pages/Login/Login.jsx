@@ -54,14 +54,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 mt-5">
       <div className="w-[85%] bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Side Form */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="p-10 flex flex-col justify-center"
+          className="py-10 px-14 flex flex-col justify-center"
         >
           <h2 className="text-3xl font-bold mb-2 text-black">Welcome back!</h2>
           <p className="text-sm text-gray-500 mb-8">
@@ -219,7 +219,7 @@ const Login = () => {
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="bg-green-50 flex items-center justify-center p-10"
+          className="bg-green-50 hidden lg:flex items-center justify-center p-10"
         >
           <div className="text-center">
             <img

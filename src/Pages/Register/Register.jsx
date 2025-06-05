@@ -84,13 +84,13 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 my-10">
-      <div className="w-[85%] bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
+      <div className="w-[90%] bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Side Form */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="p-10 flex flex-col justify-center"
+          className="lg:px-20 px-8 py-10 flex flex-col justify-center"
         >
           <h2 className="text-3xl font-bold mb-2 text-black">
             Create an account
@@ -113,7 +113,7 @@ const Register = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
                 />
               </svg>
               Your Name <span className="text-red-400">*</span>
@@ -289,7 +289,7 @@ const Register = () => {
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="bg-green-50 flex items-center justify-center p-10"
+          className="bg-green-50 hidden lg:flex items-center justify-center p-10"
         >
           <div className="text-center">
             <img
