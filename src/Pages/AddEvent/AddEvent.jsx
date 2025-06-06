@@ -1,37 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import Lottie from 'lottie-react';
-import img from '../../../src/assets/Make-event.json'
-
-
-const currentUser = {
-  name: "Mohammad",
-  email: "mohammad@example.com",
-};
-
-const eventTypes = [
-  "Swimming",
-  "Sprinting",
-  "Long Jump",
-  "High Jump",
-  "Hurdle Race",
-];
+import Lottie from "lottie-react";
+import img from "../../../src/assets/Make-event.json";
+import { AuthContext } from "../../provider/AuthContext";
 
 const AddEvent = () => {
+  const { user } = useContext(AuthContext);
+
+  const { email, displayName } = user;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
-    const newEvent = {
-      name: form.eventName.value,
-      type: form.eventType.value,
-      date: form.eventDate.value,
-      description: form.description.value,
-      creatorEmail: currentUser.email,
-      creatorName: currentUser.name,
-      imageUrl: form.imageUrl.value,
-    };
-
-    console.log("New Event:", newEvent);
+    const formData = new FormData(form);
+    const addEvents = Object.fromEntries(formData.entries());
+    console.log(addEvents);
   };
 
   return (
@@ -77,17 +60,18 @@ const AddEvent = () => {
               </label>
               <select
                 name="eventType"
+                defaultValue=""
                 className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
               >
                 <option value="" disabled>
-                  Select type
+                  Select Type
                 </option>
-                {eventTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
+                <option value="Swimming">Swimming</option>
+                <option value="Sprinting">Sprinting</option>
+                <option value="Long Jump">Long Jump</option>
+                <option value="High Jump">High Jump</option>
+                <option value="Hurdle race">Hurdle race</option>
               </select>
             </div>
 
@@ -135,8 +119,9 @@ const AddEvent = () => {
                 </label>
                 <input
                   type="text"
-                  value={currentUser.name}
-                  disabled
+                  name="userName"
+                  readOnly
+                  defaultValue={displayName}
                   className="w-full px-4 py-2 rounded bg-gray-100 text-gray-700 border border-gray-300"
                 />
               </div>
@@ -146,8 +131,9 @@ const AddEvent = () => {
                 </label>
                 <input
                   type="email"
-                  value={currentUser.email}
-                  disabled
+                  name="email"
+                  defaultValue={email}
+                  readOnly
                   className="w-full px-4 py-2 rounded bg-gray-100 text-gray-700 border border-gray-300"
                 />
               </div>

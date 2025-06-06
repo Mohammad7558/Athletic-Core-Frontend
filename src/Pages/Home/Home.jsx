@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import Slider from "../../components/Slider/Slider";
 import { useLocation } from "react-router";
-import CustomCursor from "../../components/CustomCursor/CustomCursor";
+// import CustomCursor from "../../components/CustomCursor/CustomCursor";
+import Testimonials from "../../components/Testimonials/Testimonials";
+import PopularSports from "../../components/PopularSports/PopularSports";
 
 const Home = () => {
   const location = useLocation();
@@ -14,8 +16,10 @@ const Home = () => {
 
   return (
     <div>
-      <CustomCursor/>
+      {/* <CustomCursor/> */}
       <Slider />
+      <PopularSports/>
+      <Testimonials/>
     </div>
   );
 };

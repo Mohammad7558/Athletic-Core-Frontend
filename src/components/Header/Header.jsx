@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../../../src/assets/Logo.png";
 import { AuthContext } from "../../provider/AuthContext";
-import CustomCursor from "../CustomCursor/CustomCursor";
+// import CustomCursor from "../CustomCursor/CustomCursor";
 
 const Header = () => {
   const [showHeader, setShowHeader] = useState(true);
@@ -299,7 +299,7 @@ const Header = () => {
         )}
         {/* Search Modal */}
         <dialog id="my_modal_3" className="modal p-0">
-          <CustomCursor />
+          {/* <CustomCursor /> */}
           <div className="modal-box w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden p-0 flex flex-col md:flex-row animate-scale-in">
             {/* Image section - left */}
             <div className="md:w-1/2 w-full h-48 md:h-auto bg-gray-100">
