@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
 import img from "../../../src/assets/Make-event.json";
 import { AuthContext } from "../../provider/AuthContext";
+import { useLocation } from "react-router";
+import axios from 'axios';
 
 const AddEvent = () => {
   const { user } = useContext(AuthContext);
-
   const { email, displayName } = user;
 
   const handleSubmit = (e) => {
@@ -15,7 +16,23 @@ const AddEvent = () => {
     const formData = new FormData(form);
     const addEvents = Object.fromEntries(formData.entries());
     console.log(addEvents);
+
+    axios.post('http://localhost:5000/add-event', {addEvents})
+    .then(res => {
+      console.log(res.data);
+      form.reset();
+    })
+    .catch(error => {
+      console.log(error);
+    })
   };
+
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === "/add-event") {
+      window.document.title = "Add-Event - Athletic-Core";
+    }
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
@@ -75,16 +92,30 @@ const AddEvent = () => {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Event Date
-              </label>
-              <input
-                type="date"
-                name="eventDate"
-                className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
-              />
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  Event Date
+                </label>
+                <input
+                  type="date"
+                  name="eventDate"
+                  className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  placeholder="City, Country"
+                  className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
             </div>
 
             <div>

@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 // import CustomCursor from "../../components/CustomCursor/CustomCursor";
 import Testimonials from "../../components/Testimonials/Testimonials";
 import PopularSports from "../../components/PopularSports/PopularSports";
+import FeaturedEvents from "../../components/FeaturedEvents/FeaturedEvents";
 
 const Home = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const Home = () => {
     <div>
       {/* <CustomCursor/> */}
       <Slider />
+      <FeaturedEvents/>
       <PopularSports/>
       <Testimonials/>
     </div>
