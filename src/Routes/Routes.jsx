@@ -40,7 +40,6 @@ export const router = createBrowserRouter([
         path: '/event/:id',
         element: <PrivateRoutes><SingleEvent/></PrivateRoutes>,
         hydrateFallbackElement: <Loader/>,
-        loader: ({params}) => fetch(`http://localhost:5000/event/${params.id}`)
       }
     ]
   }

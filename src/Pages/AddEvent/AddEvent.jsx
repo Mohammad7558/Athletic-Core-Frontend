@@ -150,7 +150,7 @@ const AddEvent = () => {
                 </label>
                 <input
                   type="text"
-                  name="userName"
+                  name="creatorName"
                   readOnly
                   defaultValue={displayName}
                   className="w-full px-4 py-2 rounded bg-gray-100 text-gray-700 border border-gray-300"
@@ -162,7 +162,7 @@ const AddEvent = () => {
                 </label>
                 <input
                   type="email"
-                  name="email"
+                  name="creatorEmail"
                   defaultValue={email}
                   readOnly
                   className="w-full px-4 py-2 rounded bg-gray-100 text-gray-700 border border-gray-300"
