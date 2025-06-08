@@ -55,7 +55,7 @@ const Header = () => {
       </li>
       <li key="events">
         <NavLink
-          to="/events"
+          to="/all-events"
           className={({ isActive }) => linkClasses(isActive)}
         >
           <svg
