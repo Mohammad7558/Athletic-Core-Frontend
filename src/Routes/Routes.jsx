@@ -8,6 +8,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import AllEvents from "../Pages/AllEvents/AllEvents";
 import Loader from "../components/Loader/Loader";
 import SingleEvent from "../Pages/SingleEvent/SingleEvent";
+import MyBookings from "../Pages/MyBookings/MyBookings";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
         path: '/event/:id',
         element: <PrivateRoutes><SingleEvent/></PrivateRoutes>,
         hydrateFallbackElement: <Loader/>,
+      },
+      {
+        path: '/my-bookings',
+        element: <PrivateRoutes><MyBookings/></PrivateRoutes>,
       }
     ]
   }
