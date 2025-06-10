@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-// Card entrance and hover animation
 const cardVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: 'easeOut' } },
   hover: { scale: 1.02, boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.15)' },
 };
 
-// Staggered container for details section
 const detailsContainer = {
   visible: {
     transition: {
@@ -17,18 +15,16 @@ const detailsContainer = {
   },
 };
 
-// Each icon line animation
 const iconVariants = {
   hidden: { opacity: 0, x: -10 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
 };
 
-// Delete icon animation
 const deleteBtnVariants = {
   hover: { scale: 1.2, rotate: -10 },
+  tap: { scale: 0.9 }
 };
 
-// Heroicons (meaningful inline SVGs)
 const Icons = {
   calendar: (
     <motion.svg
@@ -89,6 +85,7 @@ const Icons = {
 };
 
 const SingleCardMyBooking = ({ singleMyBookedEvent, handleDelete }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
   const {
     _id,
     eventName,
@@ -118,16 +115,21 @@ const SingleCardMyBooking = ({ singleMyBookedEvent, handleDelete }) => {
     return emojiMap[eventType.toLowerCase()] || '📅';
   };
 
+  const handleDeleteClick = () => {
+    setIsDeleting(true);
+    setTimeout(() => handleDelete(_id, eventName), 300);
+  };
+
   return (
     <motion.div
-      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-md overflow-hidden mb-6"
+      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-md overflow-hidden"
       variants={cardVariants}
       initial="hidden"
-      animate="visible"
+      animate={isDeleting ? { opacity: 0, scale: 0.9 } : "visible"}
       whileHover="hover"
+      transition={{ duration: 0.3 }}
     >
       <div className="md:flex">
-        {/* Event Image */}
         <div className="md:w-1/3 relative">
           <img
             src={imageUrl || 'https://via.placeholder.com/300x200?text=Event+Image'}
@@ -139,7 +141,6 @@ const SingleCardMyBooking = ({ singleMyBookedEvent, handleDelete }) => {
           </div>
         </div>
 
-        {/* Event Details */}
         <div className="p-6 md:w-2/3 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
@@ -151,9 +152,10 @@ const SingleCardMyBooking = ({ singleMyBookedEvent, handleDelete }) => {
               </div>
             </div>
             <motion.button
-              onClick={() => handleDelete(_id)}
+              onClick={handleDeleteClick}
               className="hover:cursor-pointer"
               whileHover="hover"
+              whileTap="tap"
               variants={deleteBtnVariants}
               aria-label="Cancel booking"
             >

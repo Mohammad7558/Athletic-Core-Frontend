@@ -1,19 +1,19 @@
 import axios from 'axios';
-import React from 'react';
-import { useContext } from 'react';
-import { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../provider/AuthContext';
-import { useState } from 'react';
 import SingleCardMyBooking from './SingleCardMyBooking';
+import TableViewMyBooking from './TableViewMyBooking';
+import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast'
 
 const MyBookings = () => {
     const [myBookedEvents, setMyBookedEvents] = useState([]);
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const [viewMode, setViewMode] = useState('card');
 
     useEffect(() => {
         axios.get(`http://localhost:5000/my-bookings?email=${user?.email}`)
         .then(res => {
-            console.log(res.data);
             setMyBookedEvents(res.data)
         })
         .catch(error => {
@@ -21,24 +21,106 @@ const MyBookings = () => {
         })
     }, [user?.email])
 
+    const handleDelete = (id, name) => {
+        axios.delete(`http://localhost:5000/delete-event/${id}`)
+        .then(res => {
+            if(res.data.deletedCount){
+                const remaining = myBookedEvents.filter(booked => booked._id !== id);
+                setMyBookedEvents(remaining);
+                toast.success(`booking cancel ${name}`)
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
+    const toggleVariants = {
+        hover: { scale: 1.03 },
+        tap: { scale: 0.98 }
+    };
+
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">My Booked Events</h1>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <h1 className="text-3xl font-bold text-gray-800 dark:text-white">My Booked Events</h1>
+                
+                <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+                    <motion.button
+                        className={`px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 ${
+                            viewMode === 'card' 
+                                ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-600 dark:text-blue-400' 
+                                : 'text-gray-600 dark:text-gray-300'
+                        }`}
+                        onClick={() => setViewMode('card')}
+                        variants={toggleVariants}
+                        whileHover="hover"
+                        whileTap="tap"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                        <span>Cards</span>
+                    </motion.button>
+                    
+                    <motion.button
+                        className={`px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 ${
+                            viewMode === 'table' 
+                                ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-600 dark:text-blue-400' 
+                                : 'text-gray-600 dark:text-gray-300'
+                        }`}
+                        onClick={() => setViewMode('table')}
+                        variants={toggleVariants}
+                        whileHover="hover"
+                        whileTap="tap"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span>Table</span>
+                    </motion.button>
+                </div>
+            </div>
             
-            {myBookedEvents.length === 0 ? (
-                <div className="text-center py-12">
-                    <p className="text-gray-500 text-lg">You haven't booked any events yet.</p>
-                </div>
-            ) : (
-                <div className="space-y-6">
-                    {myBookedEvents.map(singleMyBookedEvent => (
-                        <SingleCardMyBooking
-                            key={singleMyBookedEvent._id}
-                            singleMyBookedEvent={singleMyBookedEvent}
-                        />
-                    ))}
-                </div>
-            )}
+            <AnimatePresence>
+                {myBookedEvents.length === 0 ? (
+                    <motion.div 
+                        className="text-center py-12"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <p className="text-lg">You haven't booked any events yet.</p>
+                    </motion.div>
+                ) : viewMode === 'card' ? (
+                    <motion.div 
+                        className="grid gap-6 md:grid-cols-2 lg:grid-cols-1"
+                        layout
+                    >
+                        {myBookedEvents.map(singleMyBookedEvent => (
+                            <motion.div
+                                key={singleMyBookedEvent._id}
+                                layout
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, x: -100, transition: { duration: 0.3 } }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <SingleCardMyBooking
+                                    singleMyBookedEvent={singleMyBookedEvent}
+                                    handleDelete={handleDelete}
+                                />
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                ) : (
+                    <TableViewMyBooking 
+                        bookings={myBookedEvents}
+                        handleDelete={handleDelete}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 };
