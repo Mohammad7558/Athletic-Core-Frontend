@@ -9,6 +9,7 @@ import AllEvents from "../Pages/AllEvents/AllEvents";
 import Loader from "../components/Loader/Loader";
 import SingleEvent from "../Pages/SingleEvent/SingleEvent";
 import MyBookings from "../Pages/MyBookings/MyBookings";
+import ManageEvents from "../Pages/ManageEvents/ManageEvents";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: '/my-bookings',
         element: <PrivateRoutes><MyBookings/></PrivateRoutes>,
+      },
+      {
+        path: '/manage-events',
+        element: <PrivateRoutes><ManageEvents/></PrivateRoutes>
       }
     ]
   }
