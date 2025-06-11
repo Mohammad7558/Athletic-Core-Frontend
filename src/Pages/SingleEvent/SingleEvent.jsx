@@ -114,7 +114,6 @@ const SingleEvent = () => {
             variants={fadeUp}
             className="bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden"
           >
-            {/* Image */}
             <motion.div
               variants={fadeUp}
               className="h-64 overflow-hidden"

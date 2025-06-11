@@ -154,7 +154,6 @@ const Header = () => {
             className="sticky top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-lg"
           >
             <div className="navbar mx-auto px-4 lg:px-6 lg:flex-row flex-row-reverse justify-between">
-              {/* Mobile menu button */}
               <div className="flex-none lg:hidden">
                 <button className="btn btn-ghost" onClick={toggleSidebar}>
                   <svg
@@ -174,7 +173,6 @@ const Header = () => {
                 </button>
               </div>
 
-              {/* Logo */}
               <Link to="/" className="flex items-center gap-2">
                 <img src={logo} alt="Logo" className="w-8 h-8" />
                 <span className="text-xl font-bold text-primary">
@@ -182,39 +180,14 @@ const Header = () => {
                 </span>
               </Link>
 
-              {/* Center menu (desktop) */}
               <nav className="hidden lg:flex flex-1 justify-center">
                 <ul className="menu menu-horizontal gap-2">{menuItems}</ul>
               </nav>
-
-              {/* Right section */}
               <div className="lg:flex items-center gap-2 hidden">
                 <div className="hidden lg:block">
-                  <button
-                    className="btn btn-circle"
-                    onClick={() =>
-                      document.getElementById("my_modal_3").showModal()
-                    }
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                      />
-                    </svg>
-                  </button>
                 </div>
                 {user ? (
                   <div ref={dropdownRef} className="relative">
-                    {/* Trigger Button */}
                     <motion.div
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setIsVisible(!isVisible)}
@@ -241,7 +214,6 @@ const Header = () => {
                       </div>
                     </motion.div>
 
-                    {/* Dropdown Menu with Animation */}
                     <AnimatePresence>
                       {isVisible && (
                         <motion.ul
@@ -297,65 +269,7 @@ const Header = () => {
             </div>
           </motion.header>
         )}
-        {/* Search Modal */}
-        <dialog id="my_modal_3" className="modal p-0">
-          {/* <CustomCursor /> */}
-          <div className="modal-box w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden p-0 flex flex-col md:flex-row animate-scale-in">
-            {/* Image section - left */}
-            <div className="md:w-1/2 w-full h-48 md:h-auto bg-gray-100">
-              <img
-                src="https://i.ibb.co/cc19LTmG/search-removebg-preview.png"
-                alt="Modal Banner"
-                className="w-full h-full object-contain p-6"
-              />
-            </div>
-
-            {/* Content section - right */}
-            <div className="md:w-1/2 w-full px-6 py-6 relative">
-              {/* Close button */}
-              <form method="dialog" className="absolute right-4 top-4 z-10">
-                <button className="btn btn-sm btn-circle btn-ghost hover:bg-red-500 hover:text-white transition-all duration-300">
-                  ✕
-                </button>
-              </form>
-
-              {/* Title and Input */}
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                Search Athletic Event
-              </h3>
-              <p className="text-gray-500 text-sm mb-4">
-                Find the best Event for your need
-              </p>
-              <input
-                type="text"
-                placeholder="Search..."
-                className="input input-bordered w-full bg-white border-gray-300 focus:outline-none"
-              />
-
-              {/* Popular Tags */}
-              <div className="mt-5">
-                <h4 className="text-sm font-medium text-gray-600 mb-2">
-                  Popular Tags
-                </h4>
-                <div className="flex flex-wrap gap-2"></div>
-              </div>
-
-              {/* Recent Searches */}
-              <div className="mt-5">
-                <h4 className="text-sm font-medium text-gray-600 mb-2">
-                  Recent Searches
-                </h4>
-                <ul className="list-disc list-inside text-gray-500 text-sm space-y-1">
-                  <li key="search-1">Figma Expert</li>
-                  <li key="search-2">Shopify Store Setup</li>
-                  <li key="search-3">Video Editor</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </dialog>
       </AnimatePresence>
-      {/* Mobile Sidebar */}
       <AnimatePresence>
         {isSidebarOpen && (
           <>
@@ -384,16 +298,8 @@ const Header = () => {
                   ✕
                 </button>
               </div>
-
-              <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered w-full mb-4"
-              />
-
               <ul className="menu menu-vertical gap-2 mb-6">{menuItems}</ul>
 
-              {/* User info below menu */}
               {user ? (
                 <>
                   <div className="border-t pt-4 mt-4">

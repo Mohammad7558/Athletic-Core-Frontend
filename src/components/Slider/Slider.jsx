@@ -61,7 +61,6 @@ const Slider = () => {
     >
       <div className="w-full h-[90vh] flex items-center justify-center px-5">
         <div className="flex flex-col-reverse md:flex-row w-full h-full bg-white shadow-xl rounded-3xl overflow-hidden border border-gray-200">
-          {/* Left content */}
           <div className="w-full md:w-[45%] flex flex-col justify-center px-10 py-12">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
@@ -72,7 +71,6 @@ const Slider = () => {
                 transition={{ duration: 0.6, ease: "easeInOut" }}
                 className="space-y-6"
               >
-                {/* Title Reveal */}
                 <motion.div
                   initial={{ y: 40, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -85,7 +83,6 @@ const Slider = () => {
                   </h2>
                 </motion.div>
 
-                {/* Description Reveal */}
                 <motion.div
                   initial={{ y: 40, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -100,7 +97,6 @@ const Slider = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* Dots */}
             <div className="flex space-x-2 mt-6">
               {slides.map((_, index) => (
                 <button
@@ -116,7 +112,6 @@ const Slider = () => {
             </div>
           </div>
 
-          {/* Right image */}
           <div className="flex-1 relative">
             <AnimatePresence mode="wait" initial={false}>
               <motion.img

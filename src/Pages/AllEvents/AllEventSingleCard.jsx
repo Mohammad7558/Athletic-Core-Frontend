@@ -14,7 +14,6 @@ const AllEventSingleCard = ({ singleEvent }) => {
 
   return (
     <div className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
-      {/* Image Section */}
       <div className="relative h-56 overflow-hidden">
         <img
           src={imageUrl}
@@ -26,13 +25,10 @@ const AllEventSingleCard = ({ singleEvent }) => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-6 space-y-4">
         <h3 className="text-xl font-semibold text-gray-900">{eventName}</h3>
 
-        {/* Date */}
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          {/* Calendar Icon */}
           <svg
             className="w-5 h-5 text-indigo-500"
             fill="none"
@@ -49,9 +45,9 @@ const AllEventSingleCard = ({ singleEvent }) => {
           <span>{new Date(eventDate).toLocaleDateString()}</span>
         </div>
 
-        {/* Location */}
+
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          {/* MapPin Icon */}
+
           <svg
             className="w-5 h-5 text-indigo-500"
             fill="none"
@@ -73,18 +69,16 @@ const AllEventSingleCard = ({ singleEvent }) => {
           <span>{location}</span>
         </div>
 
-        {/* Description */}
+
         <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
 
-        {/* Buttons */}
+
         <div className="flex justify-between pt-4 gap-2">
-          {/* View Details */}
           <Link
              state={{ from: '/all-events' }}
             to={`/event/${_id}`}
             className="flex items-center justify-center gap-2 flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-all duration-300"
           >
-            {/* Eye Icon */}
             <svg
               className="w-5 h-5"
               fill="none"

@@ -14,8 +14,8 @@ const rowVariants = {
   exit: {
     opacity: 0,
     x: -100,
-    transition: { duration: 0.2 }
-  }
+    transition: { duration: 0.2 },
+  },
 };
 
 const TableViewMyBooking = ({ bookings, handleDelete }) => {
@@ -33,20 +33,24 @@ const TableViewMyBooking = ({ bookings, handleDelete }) => {
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead className="bg-gray-50 dark:bg-gray-800">
           <tr>
-            {["Event", "Type", "Date", "Location", "Organizer", "Actions"].map((heading) => (
-              <th
-                key={heading}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-              >
-                {heading}
-              </th>
-            ))}
+            {["Event", "Type", "Date", "Location", "Organizer", "Actions"].map(
+              (heading) => (
+                <th
+                  key={heading}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                >
+                  {heading}
+                </th>
+              )
+            )}
           </tr>
         </thead>
         <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
           <AnimatePresence>
             {bookings.map((booking) => {
-              const formattedDate = new Date(booking.eventDate).toLocaleDateString("en-US", {
+              const formattedDate = new Date(
+                booking.eventDate
+              ).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "short",
                 day: "numeric",
@@ -69,7 +73,10 @@ const TableViewMyBooking = ({ bookings, handleDelete }) => {
                       <div className="flex-shrink-0 h-10 w-10">
                         <img
                           className="h-10 w-10 rounded-md object-cover"
-                          src={booking.imageUrl || "https://via.placeholder.com/40?text=Event"}
+                          src={
+                            booking.imageUrl ||
+                            "https://via.placeholder.com/40?text=Event"
+                          }
                           alt={booking.eventName}
                         />
                       </div>
@@ -77,7 +84,7 @@ const TableViewMyBooking = ({ bookings, handleDelete }) => {
                         <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {booking.eventName}
                         </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                        <div className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 max-w-xs">
                           {booking.description}
                         </div>
                       </div>
@@ -105,7 +112,7 @@ const TableViewMyBooking = ({ bookings, handleDelete }) => {
                       onClick={() => handleDelete(booking._id)}
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-red-500 hover:text-red-700 cursor-pointer"
                       title="Cancel booking"
                     >
                       <svg

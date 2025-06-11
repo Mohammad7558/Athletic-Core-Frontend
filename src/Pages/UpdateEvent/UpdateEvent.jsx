@@ -56,7 +56,7 @@ const UpdateEvent = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-6xl items-center">
-        {/* Left Column: Image */}
+
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
@@ -65,7 +65,6 @@ const UpdateEvent = () => {
         >
           <Lottie animationData={img}></Lottie>
         </motion.div>
-        {/* Right Column: Form */}
         <motion.form
           onSubmit={handleUpdateEvent}
           initial={{ opacity: 0, x: 40 }}

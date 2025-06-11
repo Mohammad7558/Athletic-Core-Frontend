@@ -21,7 +21,6 @@ const SingleFeaturedEvents = ({ singleEvent }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Image Section */}
       <div className="relative h-56 overflow-hidden">
         <motion.img
           src={imageUrl}
@@ -33,13 +32,10 @@ const SingleFeaturedEvents = ({ singleEvent }) => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-6 space-y-4">
         <h3 className="text-xl font-semibold text-gray-900">{eventName}</h3>
 
-        {/* Date */}
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          {/* Calendar Icon */}
           <svg
             className="w-5 h-5 text-indigo-500"
             fill="none"
@@ -56,9 +52,9 @@ const SingleFeaturedEvents = ({ singleEvent }) => {
           <span>{new Date(eventDate).toLocaleDateString()}</span>
         </div>
 
-        {/* Location */}
+        
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          {/* MapPin Icon */}
+
           <svg
             className="w-5 h-5 text-indigo-500"
             fill="none"
@@ -80,19 +76,18 @@ const SingleFeaturedEvents = ({ singleEvent }) => {
           <span>{location}</span>
         </div>
 
-        {/* Description */}
+     
         <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
 
-        {/* Buttons */}
+
         <div className="flex justify-between pt-4 gap-2">
-          {/* View Details */}
+
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
             <Link
               to={`/event/${_id}`}
               state={{ from: '/' }}
               className="flex items-center justify-center gap-2 flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-all duration-300"
             >
-              {/* Eye Icon */}
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -115,13 +110,11 @@ const SingleFeaturedEvents = ({ singleEvent }) => {
             </Link>
           </motion.div>
 
-          {/* See All */}
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
             <Link
               to="/all-events"
               className="flex items-center justify-center gap-2 flex-1 border border-indigo-600 text-indigo-600 hover:bg-indigo-50 text-sm font-medium px-4 py-2 rounded-md transition-all duration-300"
             >
-              {/* List Icon */}
               <svg
                 className="w-5 h-5"
                 fill="none"

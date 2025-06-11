@@ -6,7 +6,6 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 px-6 py-12 md:px-20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-        {/* Brand */}
         <div>
           <h2 className="text-2xl font-bold text-white mb-4">AthletiCore</h2>
           <p className="text-sm">
@@ -20,7 +19,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Navigation */}
+
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
           <ul className="space-y-3 text-sm">
@@ -32,7 +31,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Services */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">Our Services</h3>
           <ul className="space-y-3 text-sm">
@@ -44,7 +42,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Newsletter */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">Newsletter</h3>
           <p className="text-sm mb-4">Stay updated on upcoming events and features.</p>

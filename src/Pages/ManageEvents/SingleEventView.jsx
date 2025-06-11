@@ -11,7 +11,6 @@ const SingleEventView = ({ singleEvent, handleDeleteEvent }) => {
         transition={{ duration: 0.4 }}
         className="flex flex-col md:flex-row w-11/12 mx-auto rounded-xl shadow-lg border border-gray-100 bg-white overflow-hidden"
       >
-        {/* Image Section - Left Side */}
         <div className="relative h-64 md:h-auto md:w-1/3 overflow-hidden">
           <motion.img
             src={singleEvent?.imageUrl}
@@ -29,10 +28,9 @@ const SingleEventView = ({ singleEvent, handleDeleteEvent }) => {
           </div>
         </div>
 
-        {/* Content Section - Right Side */}
+
         <div className="p-6 md:w-2/3 flex flex-col justify-between">
           <div>
-            {/* Header */}
             <div className="space-y-2 mb-4">
               <h2 className="text-2xl font-bold text-gray-900">
                 {singleEvent?.eventName}
@@ -45,9 +43,9 @@ const SingleEventView = ({ singleEvent, handleDeleteEvent }) => {
               </p>
             </div>
 
-            {/* Event Details */}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              {/* Date */}
+
               <div className="flex items-start space-x-3">
                 <div className="p-1.5 rounded-lg bg-blue-50">
                   <svg
@@ -74,7 +72,7 @@ const SingleEventView = ({ singleEvent, handleDeleteEvent }) => {
                 </div>
               </div>
 
-              {/* Location */}
+
               <div className="flex items-start space-x-3">
                 <div className="p-1.5 rounded-lg bg-purple-50">
                   <svg
@@ -105,7 +103,7 @@ const SingleEventView = ({ singleEvent, handleDeleteEvent }) => {
                 </div>
               </div>
 
-              {/* Contact */}
+
               <div className="flex items-start space-x-3">
                 <div className="p-1.5 rounded-lg bg-green-50">
                   <svg
@@ -131,7 +129,7 @@ const SingleEventView = ({ singleEvent, handleDeleteEvent }) => {
               </div>
             </div>
 
-            {/* Description */}
+
             <div className="mb-4">
               <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
                 About Event
@@ -142,7 +140,7 @@ const SingleEventView = ({ singleEvent, handleDeleteEvent }) => {
             </div>
           </div>
 
-          {/* Buttons */}
+
           <div className="flex flex-wrap justify-end gap-3 pt-4">
             <motion.div
               whileHover={{ y: -2 }}
