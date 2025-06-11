@@ -68,7 +68,7 @@ const ManageEvents = () => {
   };
 
   return (
-  <div className="h-screen">
+  <div className="min-h-screen mb-10">
     {loader ? (
       <Loader />
     ) : createdEvents.length === 0 ? (
