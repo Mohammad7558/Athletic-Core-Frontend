@@ -11,11 +11,13 @@ import SingleEvent from "../Pages/SingleEvent/SingleEvent";
 import MyBookings from "../Pages/MyBookings/MyBookings";
 import ManageEvents from "../Pages/ManageEvents/ManageEvents";
 import UpdateEvent from "../Pages/UpdateEvent/UpdateEvent";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: '/',
     Component: Main,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: '/',
