@@ -6,12 +6,24 @@ import SingleEventView from "./SingleEventView";
 import Loader from "../../components/Loader/Loader";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router";
 
 const ManageEvents = () => {
+  const location = useLocation();
   const [createdEvents, setCreatedEvents] = useState([]);
   const [loader, setLoader] = useState(true);
   const { user } = useContext(AuthContext);
   const { email } = user;
+
+  useEffect(() => {
+          if (location.pathname === "/manage-events") {
+            window.document.title = "Manage-events - Athletic-Core";
+          }
+        }, [location.pathname]);
+      
+        useEffect(() => {
+          window.scrollTo(0, 0)
+        }, [])
 
   useEffect(() => {
     axios

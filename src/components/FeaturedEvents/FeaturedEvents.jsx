@@ -5,6 +5,7 @@ import Lottie from "lottie-react";
 import { motion } from "framer-motion";
 import noData from "../../../src/assets/doNotFound.json";
 import loader from "../../../src/assets/Loader.json";
+import { Link } from "react-router";
 
 const FeaturedEvents = () => {
   const [featuredEvents, setFeaturedEvents] = useState([]);
@@ -49,41 +50,36 @@ const FeaturedEvents = () => {
             No Featured Events Yet 😕
           </h1>
           <Lottie className="mb-10" animationData={noData}></Lottie>
-          <motion.button
-            className="flex items-center justify-center px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-blue-700 transition-colors"
-            whileHover={{
-              scale: 1.03,
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            }}
-            whileTap={{
-              scale: 0.98,
-              boxShadow: "0 2px 3px rgba(0, 0, 0, 0.05)",
-            }}
+          <motion.div
+            whileHover={{ scale: 1.03, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}
+            whileTap={{ scale: 0.98, boxShadow: "0 2px 3px rgba(0,0,0,0.05)" }}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.3,
-              ease: [0.4, 0, 0.2, 1],
-            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           >
-            Add Event
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="ml-2 group-hover:translate-x-0.5 transition-transform"
+            <Link
+              to="/add-event"
+              className="group inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-blue-700 transition-colors"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </motion.button>
+              Add Event
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="ml-2 group-hover:translate-x-0.5 transition-transform"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
+          </motion.div>
         </div>
       ) : (
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">

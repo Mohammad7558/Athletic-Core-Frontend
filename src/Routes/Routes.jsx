@@ -10,6 +10,7 @@ import Loader from "../components/Loader/Loader";
 import SingleEvent from "../Pages/SingleEvent/SingleEvent";
 import MyBookings from "../Pages/MyBookings/MyBookings";
 import ManageEvents from "../Pages/ManageEvents/ManageEvents";
+import UpdateEvent from "../Pages/UpdateEvent/UpdateEvent";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +51,12 @@ export const router = createBrowserRouter([
       {
         path: '/manage-events',
         element: <PrivateRoutes><ManageEvents/></PrivateRoutes>
+      },
+      {
+        path: '/update-event/:id',
+        element: <PrivateRoutes><UpdateEvent/></PrivateRoutes>,
+        loader: ({params}) => fetch(`http://localhost:5000/event/${params.id}`),
+        hydrateFallbackElement: <Loader/>
       }
     ]
   }

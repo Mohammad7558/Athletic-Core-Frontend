@@ -1,10 +1,14 @@
-import React from 'react';
-import { useLoaderData } from 'react-router';
-import SingleFeaturedEvents from '../../components/FeaturedEvents/SingleFeaturedEvents';
-import AllEventSingleCard from './AllEventSingleCard';
+import React from "react";
+import { useLoaderData } from "react-router";
+import SingleFeaturedEvents from "../../components/FeaturedEvents/SingleFeaturedEvents";
+import AllEventSingleCard from "./AllEventSingleCard";
+import { useEffect } from "react";
 
 const AllEvents = () => {
   const allEvents = useLoaderData();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="mx-auto px-4 py-8">
@@ -18,9 +22,12 @@ const AllEvents = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {
-            allEvents.map(singleEvent => <AllEventSingleCard key={singleEvent._id} singleEvent={singleEvent} />)
-          }
+          {allEvents.map((singleEvent) => (
+            <AllEventSingleCard
+              key={singleEvent._id}
+              singleEvent={singleEvent}
+            />
+          ))}
         </div>
       )}
     </div>

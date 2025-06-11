@@ -5,11 +5,23 @@ import SingleCardMyBooking from './SingleCardMyBooking';
 import TableViewMyBooking from './TableViewMyBooking';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast'
+import { useLocation } from 'react-router';
 
 const MyBookings = () => {
+    const location = useLocation();
     const [myBookedEvents, setMyBookedEvents] = useState([]);
     const { user } = useContext(AuthContext);
     const [viewMode, setViewMode] = useState('card');
+
+    useEffect(() => {
+        if (location.pathname === "/my-bookings") {
+          window.document.title = "My-Bookings - Athletic-Core";
+        }
+      }, [location.pathname]);
+    
+      useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
 
     useEffect(() => {
         axios.get(`http://localhost:5000/my-bookings?email=${user?.email}`)

@@ -1,42 +1,41 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
+import { useContext } from "react";
+import { useLoaderData, useLocation } from "react-router";
+import { AuthContext } from "../../provider/AuthContext";
+import img from "../../../src/assets/update- 1749616288981.json";
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
-import img from "../../../src/assets/Make-event.json";
-import { AuthContext } from "../../provider/AuthContext";
-import { useLocation } from "react-router";
-import axios from 'axios';
+import { useEffect } from "react";
 
-const AddEvent = () => {
+const UpdateEvent = () => {
   const { user } = useContext(AuthContext);
   const { email, displayName } = user;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const addEvents = Object.fromEntries(formData.entries());
-    console.log(addEvents);
-
-    axios.post('http://localhost:5000/add-event', {addEvents})
-    .then(res => {
-      console.log(res.data);
-      form.reset();
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  };
-
-  const location = useLocation();
+  
   useEffect(() => {
-    if (location.pathname === "/add-event") {
-      window.document.title = "Add-Event - Athletic-Core";
+    window.scrollTo(0, 0);
+  }, []);
+
+  const currentEvent = useLoaderData();
+  const {
+    description,
+    eventDate,
+    eventName,
+    eventType,
+    imageUrl,
+    location,
+    _id,
+  } = currentEvent;
+
+  const locations = useLocation();
+  useEffect(() => {
+    if (locations.pathname === `/update-event/${_id}`) {
+      window.document.title = "Update Event - Athletic-Core";
     }
-  }, [location.pathname]);
+  }, [locations.pathname, _id]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+
+  const handleUpdateEvent = () => {};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
@@ -52,14 +51,14 @@ const AddEvent = () => {
         </motion.div>
         {/* Right Column: Form */}
         <motion.form
-          onSubmit={handleSubmit}
+          onSubmit={handleUpdateEvent}
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="p-8 bg-white rounded-xl shadow-2xl w-full"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
-            Create New Event
+            Update Event
           </h2>
 
           <div className="space-y-4">
@@ -71,7 +70,7 @@ const AddEvent = () => {
                 type="text"
                 name="eventName"
                 className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
+                defaultValue={eventName}
               />
             </div>
 
@@ -81,9 +80,8 @@ const AddEvent = () => {
               </label>
               <select
                 name="eventType"
-                defaultValue=""
+                defaultValue={eventType}
                 className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
               >
                 <option value="" disabled>
                   Select Type
@@ -105,7 +103,7 @@ const AddEvent = () => {
                   type="date"
                   name="eventDate"
                   className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  required
+                  defaultValue={eventDate}
                 />
               </div>
               <div>
@@ -117,7 +115,7 @@ const AddEvent = () => {
                   name="location"
                   placeholder="City, Country"
                   className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  required
+                  defaultValue={location}
                 />
               </div>
             </div>
@@ -130,7 +128,7 @@ const AddEvent = () => {
                 name="description"
                 rows="3"
                 className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
+                defaultValue={description}
               ></textarea>
             </div>
 
@@ -143,7 +141,7 @@ const AddEvent = () => {
                 name="imageUrl"
                 placeholder="https://example.com/image.jpg"
                 className="w-full px-4 py-2 rounded border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
+                defaultValue={imageUrl}
               />
             </div>
 
@@ -180,7 +178,7 @@ const AddEvent = () => {
               type="submit"
               className="w-full mt-4 py-2 px-6 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-semibold shadow-md"
             >
-              Submit Event
+              Update Event
             </motion.button>
           </div>
         </motion.form>
@@ -189,4 +187,4 @@ const AddEvent = () => {
   );
 };
 
-export default AddEvent;
+export default UpdateEvent;
