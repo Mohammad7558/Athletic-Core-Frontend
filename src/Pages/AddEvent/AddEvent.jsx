@@ -5,6 +5,7 @@ import img from "../../../src/assets/Make-event.json";
 import { AuthContext } from "../../provider/AuthContext";
 import { useLocation } from "react-router";
 import axios from 'axios';
+import toast from "react-hot-toast";
 
 const AddEvent = () => {
   const { user } = useContext(AuthContext);
@@ -15,15 +16,14 @@ const AddEvent = () => {
     const form = e.target;
     const formData = new FormData(form);
     const addEvents = Object.fromEntries(formData.entries());
-    console.log(addEvents);
-
     axios.post('http://localhost:5000/add-event', {addEvents})
     .then(res => {
       console.log(res.data);
+      toast.success('Event Added Successfully')
       form.reset();
     })
     .catch(error => {
-      console.log(error);
+      toast.error(error.response.data.message);
     })
   };
 

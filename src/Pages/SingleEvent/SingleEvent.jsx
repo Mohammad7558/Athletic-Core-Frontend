@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { AuthContext } from "../../provider/AuthContext";
 import axios from "axios";
@@ -27,6 +27,7 @@ const SingleEvent = () => {
   const { email, displayName } = user;
   currentEvent.user_email = user.email;
   currentEvent.eventId = currentEvent._id;
+  const locations = useLocation();
 
   useEffect(() => {
     axios
@@ -44,6 +45,7 @@ const SingleEvent = () => {
   }, []);
 
   const {
+    _id,
     eventName,
     eventType,
     eventDate,
@@ -84,6 +86,12 @@ const SingleEvent = () => {
       .catch((err) => console.log(err));
   }, [email, id]);
 
+  useEffect(() => {
+    if (locations.pathname === `/event/${_id}`) {
+      window.document.title = `${eventName} - Athletic-Core`;
+    }
+  }, [locations.pathname, _id, eventName],);
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 min-h-screen">
       <AnimatePresence>
@@ -118,10 +126,7 @@ const SingleEvent = () => {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-
-            {/* Content */}
             <div className="p-6 space-y-4">
-              {/* Title and Tag */}
               <motion.div
                 className="flex justify-between items-center"
                 variants={fadeUp}
@@ -134,14 +139,11 @@ const SingleEvent = () => {
                   {eventType}
                 </span>
               </motion.div>
-
-              {/* Details */}
               <motion.div
                 className="space-y-2 text-sm text-gray-600"
                 variants={fadeUp}
                 custom={2}
               >
-                {/* Date */}
                 <div className="flex items-center gap-2">
                   <svg
                     className="w-5 h-5 text-indigo-500"
@@ -158,8 +160,6 @@ const SingleEvent = () => {
                   </svg>
                   <span>{new Date(eventDate).toDateString()}</span>
                 </div>
-
-                {/* Location */}
                 <div className="flex items-center gap-2">
                   <svg
                     className="w-5 h-5 text-indigo-500"
@@ -181,8 +181,6 @@ const SingleEvent = () => {
                   </svg>
                   <span>{location}</span>
                 </div>
-
-                {/* Creator */}
                 <div className="flex items-center gap-2">
                   <svg
                     className="w-5 h-5 text-indigo-500"
@@ -202,8 +200,6 @@ const SingleEvent = () => {
                   </span>
                 </div>
               </motion.div>
-
-              {/* Description */}
               <motion.p
                 className="text-gray-700 leading-relaxed"
                 variants={fadeUp}
@@ -211,8 +207,6 @@ const SingleEvent = () => {
               >
                 {description}
               </motion.p>
-
-              {/* Booking Form (only design) */}
               <motion.form
                 className="space-y-4 border-t border-gray-200 pt-6"
                 variants={fadeUp}
@@ -252,7 +246,7 @@ const SingleEvent = () => {
                     className={`w-full md:w-auto flex items-center justify-center gap-2 font-semibold px-6 py-2 rounded-md transition-all duration-300 ${
                       disabled
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-green-600 hover:bg-green-700 text-white"
+                        : "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
                     }`}
                   >
                     {loading && (
@@ -279,7 +273,6 @@ const SingleEvent = () => {
                     )}
                     {disabled ? (
                       <>
-                        {/* ✅ Inline SVG from Heroicons */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-5 w-5 text-white"
@@ -304,8 +297,6 @@ const SingleEvent = () => {
                   </button>
                 </div>
               </motion.form>
-
-              {/* Back Button */}
               <motion.div className="pt-4" variants={fadeUp} custom={5}>
                 <Link
                   to="/all-events"

@@ -1,21 +1,20 @@
 import React from "react";
 import { useContext } from "react";
-import { useLoaderData, useLocation } from "react-router";
+import { useLoaderData, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../provider/AuthContext";
 import img from "../../../src/assets/update- 1749616288981.json";
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
 import { useEffect } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const UpdateEvent = () => {
   const { user } = useContext(AuthContext);
   const { email, displayName } = user;
-
-  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   const currentEvent = useLoaderData();
   const {
     description,
@@ -34,8 +33,25 @@ const UpdateEvent = () => {
     }
   }, [locations.pathname, _id]);
 
+  const navigate = useNavigate();
 
-  const handleUpdateEvent = () => {};
+
+  const handleUpdateEvent = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const updateEvent = Object.fromEntries(formData.entries());
+    axios.put(`http://localhost:5000/update-user/${_id}`, updateEvent )
+    .then(res => {
+      if(res.data.modifiedCount){
+        toast.success(`${eventName} updated successfully`)
+        navigate('/manage-events')
+      }
+    })
+    .catch(error => {
+      toast.error(error.response.data.message);
+    })
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
@@ -176,7 +192,7 @@ const UpdateEvent = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 1 }}
               type="submit"
-              className="w-full mt-4 py-2 px-6 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-semibold shadow-md"
+              className="w-full mt-4 py-2 px-6 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-semibold shadow-md cursor-pointer"
             >
               Update Event
             </motion.button>

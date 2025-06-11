@@ -68,22 +68,22 @@ const ManageEvents = () => {
   };
 
   return (
-    <div className="p-4">
-      {loader ? (
-        <Loader />
-      ) : createdEvents.length === 0 ? (
-        <NoEventsCreated />
-      ) : (
-        createdEvents.map((singleEvent) => (
-          <SingleEventView
-            key={singleEvent._id}
-            singleEvent={singleEvent}
-            handleDeleteEvent={handleDeleteEvent}
-          />
-        ))
-      )}
-    </div>
-  );
+  <div className="h-screen">
+    {loader ? (
+      <Loader />
+    ) : createdEvents.length === 0 ? (
+      <NoEventsCreated />
+    ) : (
+      createdEvents.map((singleEvent) => (
+        <SingleEventView
+          key={singleEvent._id}
+          singleEvent={singleEvent}
+          handleDeleteEvent={handleDeleteEvent}
+        />
+      ))
+    )}
+  </div>
+);
 };
 
 export default ManageEvents;
