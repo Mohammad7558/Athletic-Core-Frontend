@@ -24,21 +24,25 @@ const SingleEvent = () => {
   const [currentEvent, setCurrentEvent] = useState([]);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  const { email, displayName } = user;
+  const { email, displayName, accessToken } = user;
   currentEvent.user_email = user.email;
   currentEvent.eventId = currentEvent._id;
   const locations = useLocation();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/event/${id}`)
+      .get(`http://localhost:5000/event/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
       .then((res) => {
         setCurrentEvent(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [id]);
+  }, [id, accessToken]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

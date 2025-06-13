@@ -13,7 +13,7 @@ const ManageEvents = () => {
   const [createdEvents, setCreatedEvents] = useState([]);
   const [loader, setLoader] = useState(true);
   const { user } = useContext(AuthContext);
-  const { email } = user;
+  const { email, accessToken } = user;
 
   useEffect(() => {
           if (location.pathname === "/manage-events") {
@@ -27,7 +27,11 @@ const ManageEvents = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/my-create-events?email=${email}`)
+      .get(`http://localhost:5000/my-create-events?email=${email}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
       .then((res) => {
         setLoader(false);
         setCreatedEvents(res.data);
@@ -35,7 +39,7 @@ const ManageEvents = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [email]);
+  }, [email, accessToken]);
 
   const handleDeleteEvent = (id, name) => {
     Swal.fire({

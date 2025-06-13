@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 const UpdateEvent = () => {
   const { user } = useContext(AuthContext);
   const { email, displayName } = user;
+  const token = user?.accessToken;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -35,28 +36,34 @@ const UpdateEvent = () => {
 
   const navigate = useNavigate();
 
-
   const handleUpdateEvent = (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
     const updateEvent = Object.fromEntries(formData.entries());
-    axios.put(`http://localhost:5000/update-user/${_id}`, updateEvent )
-    .then(res => {
-      if(res.data.modifiedCount){
-        toast.success(`${eventName} updated successfully`)
-        navigate('/manage-events')
-      }
-    })
-    .catch(error => {
-      toast.error(error.response.data.message);
-    })
+
+    axios
+      .put(`http://localhost:5000/update-event/${_id}`, updateEvent, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.result?.modifiedCount) {
+          toast.success(`${eventName} updated successfully`);
+          navigate("/manage-events");
+        } else {
+          toast.info("No changes made.");
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response?.data?.message || "Update failed");
+      });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-6xl items-center">
-
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}

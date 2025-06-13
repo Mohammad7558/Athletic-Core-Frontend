@@ -1,28 +1,30 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SingleFeaturedEvents from "./SingleFeaturedEvents";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
 import noData from "../../../src/assets/doNotFound.json";
 import loader from "../../../src/assets/Loader.json";
 import { Link } from "react-router";
+import { AuthContext } from "../../provider/AuthContext";
 
 const FeaturedEvents = () => {
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
+  const token = user?.accessToken;
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/featuredEvents")
+      .get("http://localhost:5000/featuredEvents",)
       .then((res) => {
-        const data = res.data;
-        setFeaturedEvents(data);
+        setFeaturedEvents(res.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error fetching featured events:", error);
       });
-  }, []);
+  }, [token]);
 
   return (
     <div className="my-20">

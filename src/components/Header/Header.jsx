@@ -224,9 +224,6 @@ const Header = () => {
                           transition={{ duration: 0.2 }}
                           className="absolute right-0 mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52 menu"
                         >
-                          <li key="book-event">
-                            <NavLink to="/book-event">📅 Book Event</NavLink>
-                          </li>
                           <li key="my-bookings">
                             <NavLink to="/my-bookings">📖 My Bookings</NavLink>
                           </li>
