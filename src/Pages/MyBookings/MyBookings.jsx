@@ -16,7 +16,6 @@ const MyBookings = () => {
     const [loading, setLoading] = useState(true);
     const { user } = useContext(AuthContext);
     const token = user.accessToken;
-    console.log('my token is ', token);
     const [viewMode, setViewMode] = useState('card');
 
     useEffect(() => {

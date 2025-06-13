@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
       {
         path: '/update-event/:id',
         element: <PrivateRoutes><UpdateEvent/></PrivateRoutes>,
-        loader: ({params}) => fetch(`http://localhost:5000/event/${params.id}`),
+        
         hydrateFallbackElement: <Loader/>
       }
     ]

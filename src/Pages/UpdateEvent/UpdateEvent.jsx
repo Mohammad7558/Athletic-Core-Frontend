@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
-import { useLoaderData, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { AuthContext } from "../../provider/AuthContext";
 import img from "../../../src/assets/update- 1749616288981.json";
 import { motion } from "framer-motion";
@@ -11,12 +11,28 @@ import toast from "react-hot-toast";
 
 const UpdateEvent = () => {
   const { user } = useContext(AuthContext);
+  const [currentEvent, setCurrentEvent] = useState([]);
+  const {id} = useParams();
   const { email, displayName } = user;
   const token = user?.accessToken;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const currentEvent = useLoaderData();
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/update-event/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      setCurrentEvent(res.data)
+    })
+    .catch(error => {
+      console.log(error.message);
+    })
+  }, [id, token])
+
   const {
     description,
     eventDate,
