@@ -23,7 +23,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: "easeOut",
+      ease: [0.25, 0.1, 0.25, 1],
     },
   },
 };
@@ -41,7 +41,7 @@ const AllEvents = () => {
 
   useEffect(() => {
     if (location.pathname === "/all-events") {
-      document.title = "All-Events - Athletic-Core";
+      document.title = "All Events | Athletic Core";
     }
   }, [location.pathname]);
 
@@ -49,7 +49,9 @@ const AllEvents = () => {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:5000/all-events?search=${searchTerm}`);
+        const res = await fetch(
+          `http://localhost:5000/all-events?search=${searchTerm}`
+        );
         const data = await res.json();
         setEvents(data);
       } catch (err) {
@@ -61,19 +63,42 @@ const AllEvents = () => {
 
     const delayDebounce = setTimeout(() => {
       fetchEvents();
-    }, 300); // debounce search input
+    }, 350);
 
     return () => clearTimeout(delayDebounce);
   }, [searchTerm]);
 
   return (
-    <div className="mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-6 text-center text-indigo-700">All Events</h1>
-        <div className="relative max-w-2xl mx-auto">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+    <div className="mx-auto px-4 sm:px-6 py-8 max-w-7xl min-h-screen">
+      <div className="mb-10 text-center">
+        <motion.h1 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl sm:text-4xl font-bold mb-2 text-gray-900"
+        >
+          Discover Events
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-lg text-gray-600 max-w-2xl mx-auto"
+        >
+          Find your next adventure from our curated collection
+        </motion.p>
+      </div>
+
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+        className="relative max-w-2xl mx-auto mb-12"
+      >
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
             <svg
-              className="h-5 w-5 text-gray-400"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -88,8 +113,8 @@ const AllEvents = () => {
           </div>
           <input
             type="text"
-            className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 placeholder-gray-400 transition duration-200"
-            placeholder="Search events by name, description or location..."
+            className="block w-full pl-12 pr-10 py-3.5 border border-gray-200 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-200 focus:border-indigo-300 text-gray-700 placeholder-gray-400 transition-all duration-200 text-base"
+            placeholder="Search by event, location, or type..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -113,24 +138,33 @@ const AllEvents = () => {
             </button>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {loading ? (
-        <div className="text-center">
+        <div className="text-center py-20">
           <Loader />
         </div>
       ) : events.length === 0 ? (
-        <div className="text-center py-20 flex flex-col items-center justify-center">
-          <Lottie animationData={nodata} className="max-w-md w-full h-auto mb-6" />
-          <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-            {searchTerm ? "No matching events found" : "No Events Found"}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center py-20 flex flex-col items-center justify-center"
+        >
+          <Lottie
+            animationData={nodata}
+            className="max-w-md w-full h-auto mb-6"
+            loop={false}
+          />
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            {searchTerm ? "No events match your search" : "No Events Available"}
           </h2>
-          <p className="text-gray-500">
+          <p className="text-gray-500 max-w-md mx-auto">
             {searchTerm
-              ? "Try a different search term."
-              : "Looks like there are no events available at the moment."}
+              ? "Try adjusting your search or browse our upcoming events."
+              : "Check back later for new events or create your own!"}
           </p>
-        </div>
+        </motion.div>
       ) : (
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"

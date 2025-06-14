@@ -29,7 +29,7 @@ const ContactSection = () => {
     }, 1500);
   };
 
-  // Inline SVG icons
+
   const ContactIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

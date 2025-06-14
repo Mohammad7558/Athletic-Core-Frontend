@@ -5,7 +5,6 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../../../src/assets/Logo.png";
 import { AuthContext } from "../../provider/AuthContext";
 
-// Icon components for better reusability
 const HomeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
     <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -50,7 +49,7 @@ const Header = () => {
       .finally(() => setIsDropdownVisible(false));
   };
 
-  // Navigation link component
+
   const NavItem = ({ to, icon, children }) => (
     <li>
       <NavLink to={to} className={({ isActive }) => `relative px-3 py-2 transition-colors duration-200 ${isActive ? "text-blue-500 font-semibold" : "text-base-content"} group`}>
@@ -61,20 +60,20 @@ const Header = () => {
     </li>
   );
 
-  // Main navigation items
+
   const navItems = [
     { to: "/", icon: <HomeIcon />, label: "Home" },
     { to: "/all-events", icon: <EventsIcon />, label: "All Events" },
     ...(user ? [{ to: "/add-event", icon: <AddEventIcon />, label: "Add Event" }] : [])
   ];
 
-  // User dropdown items
+
   const dropdownItems = [
     { to: "/my-bookings", icon: "📖", label: "My Bookings" },
     { to: "/manage-events", icon: "🛠️", label: "Manage Events" }
   ];
 
-  // Scroll handler with debounce effect
+
   useEffect(() => {
     let timeoutId;
     const handleScroll = () => {
@@ -101,7 +100,7 @@ const Header = () => {
     };
   }, [lastScrollY]);
 
-  // Close dropdown when clicking outside
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

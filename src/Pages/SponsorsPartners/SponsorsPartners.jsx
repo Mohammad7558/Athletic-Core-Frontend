@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Sponsor data with Heroicons SVG (replace with actual sponsor data)
 const sponsors = [
   {
     name: 'SportFit',
@@ -42,7 +41,6 @@ const sponsors = [
 ];
 
 const SponsorsPartners = () => {
-  // Animation variants for cards
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
@@ -56,7 +54,6 @@ const SponsorsPartners = () => {
     },
   };
 
-  // Animation for individual sponsor items
   const itemVariants = {
     hidden: { opacity: 0, y: 15 },
     visible: { 
@@ -69,7 +66,6 @@ const SponsorsPartners = () => {
     },
   };
 
-  // Animation for the section title with blur effect
   const titleVariants = {
     hidden: { opacity: 0, x: -30, filter: 'blur(8px)' },
     visible: { 
@@ -79,7 +75,7 @@ const SponsorsPartners = () => {
       transition: { 
         duration: 1, 
         ease: [0.4, 0, 0.2, 1],
-        filter: { duration: 1.2 } // Slightly longer for blur
+        filter: { duration: 1.2 }
       } 
     },
   };

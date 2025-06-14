@@ -126,7 +126,6 @@ const Login = () => {
                 className="absolute top-1/2 right-6 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
               >
                 {showPassword ? (
-                  // Eye Off Icon
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -147,7 +146,6 @@ const Login = () => {
                     />
                   </svg>
                 ) : (
-                  // Eye Icon
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

@@ -7,7 +7,7 @@ import CustomCursor from "../components/CustomCursor/CustomCursor";
 const Main = () => {
   return (
     <div className="bg-gray-100">
-      <CustomCursor/>
+      {/* <CustomCursor/> */}
       <Header />
       <Outlet />
       <Footer />

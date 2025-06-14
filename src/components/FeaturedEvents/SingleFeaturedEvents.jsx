@@ -13,122 +13,88 @@ const SingleFeaturedEvents = ({ singleEvent }) => {
     _id,
   } = singleEvent;
 
+  const formattedDate = new Date(eventDate).toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+
   return (
     <motion.div
-      className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
-      whileHover={{ y: -6 }}
+      className="group relative overflow-hidden rounded-lg bg-white border border-gray-200 hover:border-gray-300 transition-all duration-300"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
+      whileHover={{ 
+        y: -5,
+        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)"
+      }}
     >
-      <div className="relative h-56 overflow-hidden">
+      {/* Image with subtle zoom effect */}
+      <div className="relative h-60 overflow-hidden">
         <motion.img
           src={imageUrl}
           alt={eventName}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover"
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.03 }}
+          transition={{ duration: 0.4 }}
         />
-        <div className="absolute top-4 left-4 bg-indigo-600 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider shadow">
-          {eventType}
+        {/* Minimalist date badge */}
+        <div className="absolute bottom-4 left-4 bg-white px-3 py-1 rounded text-sm font-medium text-gray-800 shadow-sm">
+          {formattedDate}
         </div>
       </div>
 
-      <div className="p-6 space-y-4">
-        <h3 className="text-xl font-semibold text-gray-900">{eventName}</h3>
-
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <svg
-            className="w-5 h-5 text-indigo-500"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          <span>{new Date(eventDate).toLocaleDateString()}</span>
-        </div>
-
+      {/* Content area */}
+      <div className="p-5">
+        {/* Event type subtle indicator */}
+        <span className="text-xs font-medium text-indigo-600 uppercase tracking-wider">
+          {eventType}
+        </span>
         
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-
-          <svg
-            className="w-5 h-5 text-indigo-500"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 11c0 7.5-7.5 11.25-7.5 11.25S4.5 18.5 4.5 11a7.5 7.5 0 1115 0z"
-            />
+        {/* Event title */}
+        <h3 className="mt-1 text-xl font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+          {eventName}
+        </h3>
+        
+        {/* Location with minimalist icon */}
+        <div className="mt-2 flex items-center text-sm text-gray-500">
+          <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <span>{location}</span>
+          {location}
         </div>
-
-     
-        <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
-
-
-        <div className="flex justify-between pt-4 gap-2">
-
-          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+        
+        {/* Description with subtle fade */}
+        <p className="mt-3 text-gray-600 text-sm line-clamp-2">
+          {description}
+        </p>
+        
+        {/* Minimalist action buttons */}
+        <div className="mt-6 flex justify-between space-x-3">
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
             <Link
               to={`/event/${_id}`}
-              state={{ from: '/' }}
-              className="flex items-center justify-center gap-2 flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-all duration-300"
+              className="block w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 transition-colors"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
               View Details
             </Link>
           </motion.div>
-
-          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+          
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
             <Link
               to="/all-events"
-              className="flex items-center justify-center gap-2 flex-1 border border-indigo-600 text-indigo-600 hover:bg-indigo-50 text-sm font-medium px-4 py-2 rounded-md transition-all duration-300"
+              className="block w-full text-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-              See All
+              Explore All
             </Link>
           </motion.div>
         </div>
