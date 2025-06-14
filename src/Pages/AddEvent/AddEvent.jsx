@@ -18,7 +18,6 @@ const AddEvent = () => {
     const addEvents = Object.fromEntries(formData.entries());
     axios.post('http://localhost:5000/add-event', {addEvents})
     .then(res => {
-      console.log(res.data);
       toast.success('Event Added Successfully')
       form.reset();
     })
@@ -176,7 +175,7 @@ const AddEvent = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 1 }}
               type="submit"
-              className="w-full mt-4 py-2 px-6 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-semibold shadow-md"
+              className="w-full mt-4 py-2 px-6 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-semibold shadow-md cursor-pointer"
             >
               Submit Event
             </motion.button>

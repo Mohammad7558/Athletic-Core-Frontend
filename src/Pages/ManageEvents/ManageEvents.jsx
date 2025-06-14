@@ -37,7 +37,7 @@ const ManageEvents = () => {
         setCreatedEvents(res.data);
       })
       .catch((error) => {
-        console.log(error);
+         toast.error(error.response?.data?.message || error.message || 'Something went wrong');
       });
   }, [email, accessToken]);
 

@@ -39,7 +39,7 @@ const MyBookings = () => {
             setMyBookedEvents(res.data)
         })
         .catch(error => {
-            console.log(error);
+            toast.error(error.message);
         })
     }, [user?.email, token])
 
@@ -53,7 +53,7 @@ const MyBookings = () => {
             }
         })
         .catch(error => {
-            console.log(error);
+            toast.error(error.message);
         })
     }
 

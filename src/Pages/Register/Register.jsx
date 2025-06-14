@@ -66,7 +66,6 @@ const Register = () => {
     createUserWithGoogle(provider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
         navigate(from, { replace: true });
         toast.success("User Created Successfully", { id: toastId });
       })
@@ -258,7 +257,7 @@ const Register = () => {
               onClick={handleRegisterWithGoogle}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold"
+              className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold cursor-pointer"
             >
               <FaGoogle className="w-5 h-5" />
             </motion.button>

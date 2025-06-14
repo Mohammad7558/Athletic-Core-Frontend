@@ -196,7 +196,7 @@ const Login = () => {
               onClick={signInUser}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold"
+              className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold cursor-pointer"
             >
               <FaGoogle className="w-5 h-5" />
             </motion.button>
