@@ -7,6 +7,25 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEm
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  // const [darkTheme, setDarkTheme] = useState(false);
+
+  // useEffect(() => {
+  //   const addDarkTheme = localStorage.getItem('theme');
+  //   if(addDarkTheme){
+  //     const isDark = addDarkTheme === 'dark';
+  //     setDarkTheme(isDark);
+  //   }
+  // }, [])
+
+  // const toggleTheme = () => {
+  //   setDarkTheme(prev => {
+  //     const newTheme = !prev ? 'dark' : 'light';
+  //     localStorage.setItem('theme', newTheme);
+  //     return !prev
+  //   });
+    
+  // }
+  
 
   const createUserWithGoogle = (provider) => {
     setLoading(true);
@@ -56,7 +75,9 @@ const AuthProvider = ({ children }) => {
     createUserWithEmailPass,
     signInEmailPassword,
     updateUser,
-    forgetPassword
+    forgetPassword,
+    // darkTheme,
+    // toggleTheme
   };
 
   return (
