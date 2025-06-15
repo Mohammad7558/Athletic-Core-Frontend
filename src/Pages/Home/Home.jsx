@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Slider from "../../components/Slider/Slider";
 import { useLocation } from "react-router";
-// import CustomCursor from "../../components/CustomCursor/CustomCursor";
 import Testimonials from "../../components/Testimonials/Testimonials";
 import PopularSports from "../../components/PopularSports/PopularSports";
 import FeaturedEvents from "../../components/FeaturedEvents/FeaturedEvents";
@@ -9,6 +8,8 @@ import SportsBlogSection from "../SportsBlogSection/SportsBlogSection";
 import SponsorsPartners from "../SponsorsPartners/SponsorsPartners";
 import PricingPlans from "../../components/PricingPlans/PricingPlans";
 import ContactSection from "../../components/ContactSection/ContactSection";
+import BackToTop from "../../components/BackToTop/BackToTop";
+import FAQSection from "../../components/FAQSection/FAQSection";
 
 const Home = () => {
   const location = useLocation();
@@ -21,7 +22,6 @@ const Home = () => {
 
   return (
     <div>
-      {/* <CustomCursor/> */}
       <Slider />
       <FeaturedEvents/>
       <PopularSports/>
@@ -29,7 +29,9 @@ const Home = () => {
       <SportsBlogSection/>
       <PricingPlans/>
       <SponsorsPartners/>
+      <FAQSection/>
       <ContactSection/>
+      <BackToTop/>
     </div>
   );
 };
