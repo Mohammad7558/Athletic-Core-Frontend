@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router";
-import AllEventSingleCard from "./AllEventSingleCard";
-import nodata from "../../../src/assets/doNotFound.json";
-import Lottie from "lottie-react";
-import Loader from "../../components/Loader/Loader";
-import { motion } from "framer-motion";
 import axios from "axios";
+import { motion } from "framer-motion";
+import Lottie from "lottie-react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import nodata from "../../../src/assets/doNotFound.json";
+import Loader from "../../components/Loader/Loader";
+import AllEventSingleCard from "./AllEventSingleCard";
 
 const containerVariants = {
   hidden: { opacity: 1 },
@@ -38,7 +38,9 @@ const AllEvents = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5000/event?sort=${sortOrder}`)
+      .get(
+        `https://athletic-core-server-side.vercel.app/event?sort=${sortOrder}`
+      )
       .then((res) => {
         setEvents(res.data);
         setLoading(false);
@@ -61,27 +63,55 @@ const AllEvents = () => {
     }
   }, [location.pathname]);
 
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const { signal } = controller;
+
+  //   const fetchEvents = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const res = await fetch(
+  //         `https://athletic-core-server-side.vercel.app/all-events?search=${searchTerm}`,
+  //         { signal }
+  //       );
+  //       if (!res.ok) throw new Error("Network response was not ok");
+  //       const data = await res.json();
+  //       setEvents(data);
+  //     } catch (err) {
+  //       if (err.name !== "AbortError") {
+  //         console.error("Error fetching events:", err);
+  //       }
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   // const delayDebounce = setTimeout(() => {
+  //   //   if (searchTerm.trim() !== "") {
+  //   //     fetchEvents();
+  //   //   } else {
+  //   //     setEvents([]); // or fetch all by default
+  //   //   }
+  //   // }, 350);
+
+  //   // return () => {
+  //   //   clearTimeout(delayDebounce);
+  //   //   controller.abort(); // cancel previous fetch if new one is started
+  //   // };
+  // }, [searchTerm]);
+
   useEffect(() => {
-    const fetchEvents = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(
-          `http://localhost:5000/all-events?search=${searchTerm}`
-        );
-        const data = await res.json();
-        setEvents(data);
-      } catch (err) {
-        console.error("Error fetching events:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const delayDebounce = setTimeout(() => {
-      fetchEvents();
-    }, 350);
-
-    return () => clearTimeout(delayDebounce);
+    axios
+      .get(
+        `https://athletic-core-server-side.vercel.app/all-events?search=${searchTerm}`
+      )
+      .then((res) => {
+        console.log(res.data);
+        setEvents(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [searchTerm]);
 
   return (

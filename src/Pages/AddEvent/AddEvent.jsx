@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
+import { useContext, useEffect } from "react";
+import toast from "react-hot-toast";
+import { useLocation } from "react-router";
 import img from "../../../src/assets/Make-event.json";
 import { AuthContext } from "../../provider/AuthContext";
-import { useLocation } from "react-router";
-import axios from 'axios';
-import toast from "react-hot-toast";
 
 const AddEvent = () => {
   const { user } = useContext(AuthContext);
@@ -16,14 +16,19 @@ const AddEvent = () => {
     const form = e.target;
     const formData = new FormData(form);
     const addEvents = Object.fromEntries(formData.entries());
-    axios.post('http://localhost:5000/add-event', {addEvents})
-    .then(res => {
-      toast.success('Event Added Successfully')
-      form.reset();
-    })
-    .catch(error => {
-      toast.error(error.response.data.message);
-    })
+    axios
+      .post("https://athletic-core-server-side.vercel.app/add-event", {
+        addEvents,
+      })
+      .then((res) => {
+        if (res.data.insertedId) {
+          toast.success("Event Added Successfully");
+          form.reset();
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
   };
 
   const location = useLocation();
@@ -34,8 +39,8 @@ const AddEvent = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">

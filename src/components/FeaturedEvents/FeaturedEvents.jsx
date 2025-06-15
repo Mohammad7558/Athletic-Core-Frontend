@@ -1,22 +1,19 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import SingleFeaturedEvents from "./SingleFeaturedEvents";
-import Lottie from "lottie-react";
 import { motion } from "framer-motion";
+import Lottie from "lottie-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import noData from "../../../src/assets/doNotFound.json";
 import loader from "../../../src/assets/Loader.json";
-import { Link } from "react-router";
-import { AuthContext } from "../../provider/AuthContext";
+import SingleFeaturedEvents from "./SingleFeaturedEvents";
 
 const FeaturedEvents = () => {
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(AuthContext);
-  const token = user?.accessToken;
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/featuredEvents")
+      .get("https://athletic-core-server-side.vercel.app/featuredEvents")
       .then((res) => {
         setFeaturedEvents(res.data);
         setLoading(false);
@@ -24,7 +21,7 @@ const FeaturedEvents = () => {
       .catch((error) => {
         console.error("Error fetching featured events:", error);
       });
-  }, [token]);
+  }, []);
 
   // Animation variants
   const container = {
@@ -33,9 +30,9 @@ const FeaturedEvents = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.15,
-        when: "beforeChildren"
-      }
-    }
+        when: "beforeChildren",
+      },
+    },
   };
 
   const item = {
@@ -46,9 +43,9 @@ const FeaturedEvents = () => {
       filter: "blur(0px)",
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1]
-      }
-    }
+        ease: [0.25, 0.1, 0.25, 1],
+      },
+    },
   };
 
   const titleAnimation = {
@@ -58,9 +55,9 @@ const FeaturedEvents = () => {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   const subtitleAnimation = {
@@ -70,15 +67,15 @@ const FeaturedEvents = () => {
       scale: 1,
       transition: {
         delay: 0.2,
-        duration: 0.6
-      }
-    }
+        duration: 0.6,
+      },
+    },
   };
 
   return (
     <div className="my-20" id="featured-events">
       {loading ? (
-        <motion.div 
+        <motion.div
           className="flex justify-center items-center w-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -87,7 +84,7 @@ const FeaturedEvents = () => {
           <Lottie className="w-20" animationData={loader} />
         </motion.div>
       ) : featuredEvents.length === 0 ? (
-        <motion.div 
+        <motion.div
           className="flex flex-col justify-center items-center lg:p-0 p-8 text-center text-gray-600"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -115,8 +112,8 @@ const FeaturedEvents = () => {
               />
             </svg>
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             className="font-bold text-2xl lg:text-4xl mb-4 text-gray-800"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -125,7 +122,7 @@ const FeaturedEvents = () => {
           >
             No Featured Events Yet 😕
           </motion.h1>
-          
+
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -134,7 +131,7 @@ const FeaturedEvents = () => {
           >
             <Lottie className="mb-10" animationData={noData} />
           </motion.div>
-          
+
           <motion.div
             whileHover={{ scale: 1.03, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}
             whileTap={{ scale: 0.98, boxShadow: "0 2px 3px rgba(0,0,0,0.05)" }}
@@ -168,7 +165,7 @@ const FeaturedEvents = () => {
           </motion.div>
         </motion.div>
       ) : (
-        <motion.section 
+        <motion.section
           className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -176,7 +173,7 @@ const FeaturedEvents = () => {
           transition={{ duration: 0.5 }}
         >
           <div className="max-w-7xl mx-auto">
-            <motion.div 
+            <motion.div
               className="text-center mb-12"
               initial="hidden"
               whileInView="visible"
@@ -205,10 +202,7 @@ const FeaturedEvents = () => {
               viewport={{ once: true, margin: "-100px" }}
             >
               {featuredEvents.map((singleEvent) => (
-                <motion.div
-                  key={singleEvent._id}
-                  variants={item}
-                >
+                <motion.div key={singleEvent._id} variants={item}>
                   <SingleFeaturedEvents singleEvent={singleEvent} />
                 </motion.div>
               ))}

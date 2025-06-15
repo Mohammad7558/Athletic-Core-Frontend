@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import { useContext } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
-import { AuthContext } from "../../provider/AuthContext";
-import img from "../../../src/assets/update- 1749616288981.json";
+import axios from "axios";
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
-import { useEffect } from "react";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useLocation, useNavigate, useParams } from "react-router";
+import img from "../../../src/assets/update- 1749616288981.json";
+import { AuthContext } from "../../provider/AuthContext";
 
 const UpdateEvent = () => {
   const { user } = useContext(AuthContext);
   const [currentEvent, setCurrentEvent] = useState([]);
-  const {id} = useParams();
+  const { id } = useParams();
   const { email, displayName } = user;
   const token = user?.accessToken;
   useEffect(() => {
@@ -20,18 +18,19 @@ const UpdateEvent = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/update-event/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      setCurrentEvent(res.data)
-    })
-    .catch(error => {
-      toast.error(error.message);
-    })
-  }, [id, token])
+    axios
+      .get(`https://athletic-core-server-side.vercel.app/update-event/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setCurrentEvent(res.data);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  }, [id, token]);
 
   const {
     description,
@@ -59,11 +58,15 @@ const UpdateEvent = () => {
     const updateEvent = Object.fromEntries(formData.entries());
 
     axios
-      .put(`http://localhost:5000/update-event/${_id}`, updateEvent, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .put(
+        `https://athletic-core-server-side.vercel.app/update-event/${_id}`,
+        updateEvent,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.result?.modifiedCount) {
           toast.success(`${eventName} updated successfully`);

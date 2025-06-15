@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../provider/AuthContext";
 import axios from "axios";
-import NoEventsCreated from "../../components/NoEventsCreated/NoEventsCreated";
-import SingleEventView from "./SingleEventView";
-import Loader from "../../components/Loader/Loader";
-import Swal from "sweetalert2";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router";
+import Swal from "sweetalert2";
+import Loader from "../../components/Loader/Loader";
+import NoEventsCreated from "../../components/NoEventsCreated/NoEventsCreated";
+import { AuthContext } from "../../provider/AuthContext";
+import SingleEventView from "./SingleEventView";
 
 const ManageEvents = () => {
   const location = useLocation();
@@ -16,28 +16,35 @@ const ManageEvents = () => {
   const { email, accessToken } = user;
 
   useEffect(() => {
-          if (location.pathname === "/manage-events") {
-            window.document.title = "Manage-events - Athletic-Core";
-          }
-        }, [location.pathname]);
-      
-        useEffect(() => {
-          window.scrollTo(0, 0)
-        }, [])
+    if (location.pathname === "/manage-events") {
+      window.document.title = "Manage-events - Athletic-Core";
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/my-create-events?email=${email}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
+      .get(
+        `https://athletic-core-server-side.vercel.app/my-create-events?email=${email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      })
+      )
       .then((res) => {
         setLoader(false);
         setCreatedEvents(res.data);
       })
       .catch((error) => {
-         toast.error(error.response?.data?.message || error.message || 'Something went wrong');
+        toast.error(
+          error.response?.data?.message ||
+            error.message ||
+            "Something went wrong"
+        );
       });
   }, [email, accessToken]);
 
@@ -53,7 +60,9 @@ const ManageEvents = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/delete-creator-event/${id}`)
+          .delete(
+            `https://athletic-core-server-side.vercel.app/delete-creator-event/${id}`
+          )
           .then((res) => {
             if (res.data.deletedCount) {
               const remaining = createdEvents.filter(
@@ -65,29 +74,29 @@ const ManageEvents = () => {
           })
           .catch((error) => {
             console.log(error);
-            toast.error('Something is wrong. Try Again')
+            toast.error("Something is wrong. Try Again");
           });
       }
     });
   };
 
   return (
-  <div className="min-h-screen mb-10">
-    {loader ? (
-      <Loader />
-    ) : createdEvents.length === 0 ? (
-      <NoEventsCreated />
-    ) : (
-      createdEvents.map((singleEvent) => (
-        <SingleEventView
-          key={singleEvent._id}
-          singleEvent={singleEvent}
-          handleDeleteEvent={handleDeleteEvent}
-        />
-      ))
-    )}
-  </div>
-);
+    <div className="min-h-screen mb-10">
+      {loader ? (
+        <Loader />
+      ) : createdEvents.length === 0 ? (
+        <NoEventsCreated />
+      ) : (
+        createdEvents.map((singleEvent) => (
+          <SingleEventView
+            key={singleEvent._id}
+            singleEvent={singleEvent}
+            handleDeleteEvent={handleDeleteEvent}
+          />
+        ))
+      )}
+    </div>
+  );
 };
 
 export default ManageEvents;

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { AuthContext } from "../../provider/AuthContext";
 import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthContext";
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -62,7 +62,7 @@ const SingleEvent = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5000/event/${id}`, {
+      .get(`https://athletic-core-server-side.vercel.app/event/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -79,10 +79,10 @@ const SingleEvent = () => {
   }, [id, accessToken]);
 
   useEffect(() => {
-    if (!email || !id) return;
-
     axios
-      .get(`http://localhost:5000/checked-book?email=${email}&eventId=${id}`)
+      .get(
+        `https://athletic-core-server-side.vercel.app/checked-book?email=${email}&eventId=${id}`
+      )
       .then((res) => {
         if (res.data.booked) {
           setDisabled(true);
@@ -94,15 +94,12 @@ const SingleEvent = () => {
   }, [email, id]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/booked-Users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-      .then(res => {
+    axios
+      .get(`https://athletic-core-server-side.vercel.app/booked-users/${id}`)
+      .then((res) => {
         setBookedUserCount(res.data.count || 0);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching attendee count:", error.message);
       });
   }, [id, accessToken]);
@@ -122,12 +119,15 @@ const SingleEvent = () => {
     };
 
     axios
-      .post("http://localhost:5000/booked-event", eventToBook)
+      .post(
+        "https://athletic-core-server-side.vercel.app/booked-event",
+        eventToBook
+      )
       .then((res) => {
         if (res.data.insertedId) {
           setDisabled(true);
           setShowConfirmModal(false);
-          setBookedUserCount(prev => prev + 1);
+          setBookedUserCount((prev) => prev + 1);
           toast.success(`You booked ${currentEvent.eventName} Successfully`);
         }
       })
@@ -167,7 +167,17 @@ const SingleEvent = () => {
     );
   }
 
-  const { _id, eventName, eventType, eventDate, location: eventLocation, description, imageUrl, creatorName, creatorEmail } = currentEvent;
+  const {
+    _id,
+    eventName,
+    eventType,
+    eventDate,
+    location: eventLocation,
+    description,
+    imageUrl,
+    creatorName,
+    creatorEmail,
+  } = currentEvent;
 
   const formattedDate = new Date(eventDate).toLocaleDateString("en-US", {
     weekday: "long",
@@ -189,7 +199,10 @@ const SingleEvent = () => {
           className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
         >
           {/* Hero Section */}
-          <motion.div variants={itemFade} className="relative h-64 md:h-96 overflow-hidden">
+          <motion.div
+            variants={itemFade}
+            className="relative h-64 md:h-96 overflow-hidden"
+          >
             <img
               src={imageUrl}
               alt={eventName}
@@ -202,77 +215,159 @@ const SingleEvent = () => {
                   {eventType}
                 </span>
                 <span className="inline-flex items-center px-4 py-1.5 bg-indigo-600/95 backdrop-blur-sm text-white text-sm font-semibold rounded-full shadow-sm">
-                  <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  <svg
+                    className="w-4 h-4 mr-1.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
                   </svg>
-                  {bookedUserCount} {bookedUserCount === 1 ? 'attendee' : 'attendees'}
+                  {bookedUserCount}{" "}
+                  {bookedUserCount === 1 ? "attendee" : "attendees"}
                 </span>
               </div>
-              <h1 className="mt-3 text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">{eventName}</h1>
+              <h1 className="mt-3 text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                {eventName}
+              </h1>
             </div>
           </motion.div>
 
           {/* Main Content */}
           <div className="p-6 md:p-8 lg:p-10">
-            <motion.div variants={itemFade} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <motion.div
+              variants={itemFade}
+              className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+            >
               {/* Left Column - Event Details */}
               <div className="lg:col-span-2 space-y-8">
                 <motion.div variants={itemFade} className="space-y-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">About This Event</h2>
-                  <p className="text-gray-600 leading-relaxed text-base md:text-lg">{description}</p>
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+                    About This Event
+                  </h2>
+                  <p className="text-gray-600 leading-relaxed text-base md:text-lg">
+                    {description}
+                  </p>
                 </motion.div>
 
                 <motion.div variants={itemFade} className="space-y-6">
-                  <h3 className="text-xl md:text-2xl font-semibold text-gray-900 tracking-tight">Event Details</h3>
+                  <h3 className="text-xl md:text-2xl font-semibold text-gray-900 tracking-tight">
+                    Event Details
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:bg-gray-100 transition-colors">
                       <div className="flex-shrink-0 p-2 bg-indigo-100 rounded-lg">
-                        <svg className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg
+                          className="h-5 w-5 text-indigo-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Date & Time</p>
-                        <p className="text-gray-800 font-semibold text-base">{formattedDate}</p>
+                        <p className="text-sm font-medium text-gray-500">
+                          Date & Time
+                        </p>
+                        <p className="text-gray-800 font-semibold text-base">
+                          {formattedDate}
+                        </p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:bg-gray-100 transition-colors">
                       <div className="flex-shrink-0 p-2 bg-indigo-100 rounded-lg">
-                        <svg className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <svg
+                          className="h-5 w-5 text-indigo-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Location</p>
-                        <p className="text-gray-800 font-semibold text-base">{eventLocation}</p>
+                        <p className="text-sm font-medium text-gray-500">
+                          Location
+                        </p>
+                        <p className="text-gray-800 font-semibold text-base">
+                          {eventLocation}
+                        </p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:bg-gray-100 transition-colors">
                       <div className="flex-shrink-0 p-2 bg-indigo-100 rounded-lg">
-                        <svg className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        <svg
+                          className="h-5 w-5 text-indigo-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                          />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Organizer</p>
-                        <p className="text-gray-800 font-semibold text-base">{creatorName}</p>
+                        <p className="text-sm font-medium text-gray-500">
+                          Organizer
+                        </p>
+                        <p className="text-gray-800 font-semibold text-base">
+                          {creatorName}
+                        </p>
                         <p className="text-sm text-gray-500">{creatorEmail}</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:bg-gray-100 transition-colors">
                       <div className="flex-shrink-0 p-2 bg-indigo-100 rounded-lg">
-                        <svg className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        <svg
+                          className="h-5 w-5 text-indigo-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                          />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Attendees</p>
+                        <p className="text-sm font-medium text-gray-500">
+                          Attendees
+                        </p>
                         <p className="text-gray-800 font-semibold text-base">
-                          {bookedUserCount} {bookedUserCount === 1 ? 'person' : 'people'} registered
+                          {bookedUserCount}{" "}
+                          {bookedUserCount === 1 ? "person" : "people"}{" "}
+                          registered
                         </p>
                         {bookedUserCount > 0 && (
                           <p className="text-xs text-gray-500 mt-1">
@@ -291,11 +386,16 @@ const SingleEvent = () => {
                   variants={itemFade}
                   className="bg-gradient-to-br from-indigo-50 to-gray-50 p-6 rounded-xl border border-gray-100 shadow-md"
                 >
-                  <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-6 tracking-tight">Join the Event</h3>
+                  <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-6 tracking-tight">
+                    Join the Event
+                  </h3>
 
                   <div className="space-y-5">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
                         Your Name
                       </label>
                       <input
@@ -308,7 +408,10 @@ const SingleEvent = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
                         Your Email
                       </label>
                       <input
@@ -321,7 +424,10 @@ const SingleEvent = () => {
                       />
                     </div>
                     <button
-                      onClick={(e) => { e.preventDefault(); setShowConfirmModal(true); }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowConfirmModal(true);
+                      }}
                       disabled={disabled || loading}
                       className={`mt-6 w-full flex items-center  justify-center px-4 py-3 rounded-lg text-sm font-semibold text-white ${
                         disabled
@@ -333,23 +439,59 @@ const SingleEvent = () => {
                     >
                       {loading ? (
                         <>
-                          <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                          <svg
+                            className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            ></path>
                           </svg>
                           Processing...
                         </>
                       ) : disabled ? (
                         <>
-                          <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          <svg
+                            className="-ml-1 mr-2 h-5 w-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M5 13l4 4L19 7"
+                            />
                           </svg>
                           Already Booked
                         </>
                       ) : (
                         <>
-                          <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          <svg
+                            className="-ml-1 mr-2 h-5 w-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M5 13l4 4L19 7"
+                            />
                           </svg>
                           Book Now
                         </>
@@ -363,8 +505,18 @@ const SingleEvent = () => {
                     to="/all-events"
                     className="inline-flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200 group"
                   >
-                    <svg className="mr-2 h-5 w-5 text-indigo-500 group-hover:text-indigo-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    <svg
+                      className="mr-2 h-5 w-5 text-indigo-500 group-hover:text-indigo-700 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                      />
                     </svg>
                     Back to All Events
                   </Link>
@@ -393,26 +545,45 @@ const SingleEvent = () => {
             >
               <div className="p-6 md:p-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">Confirm Your Registration</h3>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
+                    Confirm Your Registration
+                  </h3>
                   <button
                     onClick={() => setShowConfirmModal(false)}
                     className="text-gray-500 cursor-pointer hover:text-gray-700 transition-colors duration-200"
                     aria-label="Close"
                   >
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-gray-600 text-sm mb-3">You're about to register for:</p>
+                  <p className="text-gray-600 text-sm mb-3">
+                    You're about to register for:
+                  </p>
                   <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
-                    <h4 className="font-semibold text-gray-900 text-base">{eventName}</h4>
-                    <p className="text-sm text-gray-600 mt-1">{formattedDate}</p>
+                    <h4 className="font-semibold text-gray-900 text-base">
+                      {eventName}
+                    </h4>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {formattedDate}
+                    </p>
                     <p className="text-sm text-gray-600">{eventLocation}</p>
                     <p className="text-sm text-indigo-600 mt-2 font-medium">
-                      Currently {bookedUserCount} {bookedUserCount === 1 ? 'person' : 'people'} attending
+                      Currently {bookedUserCount}{" "}
+                      {bookedUserCount === 1 ? "person" : "people"} attending
                     </p>
                   </div>
                 </div>
@@ -428,14 +599,32 @@ const SingleEvent = () => {
                     onClick={handleBookingEvent}
                     disabled={loading}
                     className={`px-4 py-2 rounded-lg cursor-pointer text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 ${
-                      loading ? "opacity-80 cursor-wait" : "shadow-md hover:shadow-lg"
+                      loading
+                        ? "opacity-80 cursor-wait"
+                        : "shadow-md hover:shadow-lg"
                     }`}
                   >
                     {loading ? (
                       <>
-                        <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        <svg
+                          className="animate-spin -ml-1 mr-2 h-5 w-5 text-white inline"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8H4z"
+                          ></path>
                         </svg>
                         Processing...
                       </>
