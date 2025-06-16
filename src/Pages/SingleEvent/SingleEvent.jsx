@@ -55,7 +55,7 @@ const SingleEvent = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  const { email, displayName, accessToken } = user || {};
+  const { email, displayName, accessToken } = user;
   const location = useLocation();
   const [bookedUserCount, setBookedUserCount] = useState(0);
 
@@ -102,7 +102,7 @@ const SingleEvent = () => {
       .catch((error) => {
         console.error("Error fetching attendee count:", error.message);
       });
-  }, [id, accessToken]);
+  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -168,7 +168,6 @@ const SingleEvent = () => {
   }
 
   const {
-    _id,
     eventName,
     eventType,
     eventDate,

@@ -92,7 +92,6 @@ const AllEventSingleCard = ({ singleEvent }) => {
         {/* CTA Button */}
         <div className="mt-auto pt-2">
           <Link
-            state={{ from: "/all-events" }}
             to={`/event/${_id}`}
             className="inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-all duration-300"
           >

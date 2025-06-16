@@ -63,43 +63,6 @@ const AllEvents = () => {
     }
   }, [location.pathname]);
 
-  // useEffect(() => {
-  //   const controller = new AbortController();
-  //   const { signal } = controller;
-
-  //   const fetchEvents = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const res = await fetch(
-  //         `https://athletic-core-server-side.vercel.app/all-events?search=${searchTerm}`,
-  //         { signal }
-  //       );
-  //       if (!res.ok) throw new Error("Network response was not ok");
-  //       const data = await res.json();
-  //       setEvents(data);
-  //     } catch (err) {
-  //       if (err.name !== "AbortError") {
-  //         console.error("Error fetching events:", err);
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   // const delayDebounce = setTimeout(() => {
-  //   //   if (searchTerm.trim() !== "") {
-  //   //     fetchEvents();
-  //   //   } else {
-  //   //     setEvents([]); // or fetch all by default
-  //   //   }
-  //   // }, 350);
-
-  //   // return () => {
-  //   //   clearTimeout(delayDebounce);
-  //   //   controller.abort(); // cancel previous fetch if new one is started
-  //   // };
-  // }, [searchTerm]);
-
   useEffect(() => {
     axios
       .get(
