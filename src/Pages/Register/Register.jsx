@@ -73,7 +73,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 my-6">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 my-6 lg:my-10">
       <div className="lg:w-[90%] w-full bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
         <motion.div
