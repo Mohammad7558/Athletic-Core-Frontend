@@ -29,11 +29,11 @@ const Home = () => {
       <Slider />
       <FeaturedEvents/>
       <PopularSports/>
-      <Testimonials/>
       <SportsBlogSection/>
       <PricingPlans/>
       <SponsorsPartners/>
       <FAQSection/>
+      <Testimonials/>
       <ContactSection/>
       <BackToTop/>
     </div>
