@@ -73,14 +73,14 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 my-10">
-      <div className="w-[90%] bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 my-6">
+      <div className="lg:w-[90%] w-full bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="lg:px-20 px-8 py-10 flex flex-col justify-center"
+          className="lg:px-20 px-6 py-10 flex flex-col justify-center"
         >
           <h2 className="text-3xl font-bold mb-2 text-black">
             Create an account

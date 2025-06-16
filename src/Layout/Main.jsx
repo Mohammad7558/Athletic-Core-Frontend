@@ -7,7 +7,9 @@ import CustomCursor from "../components/CustomCursor/CustomCursor";
 const Main = () => {
   return (
     <div className="bg-gray-100">
-      <CustomCursor/>
+      <div className="hidden lg:block">
+        <CustomCursor/>
+      </div>
       <Header />
       <Outlet />
       <Footer />
