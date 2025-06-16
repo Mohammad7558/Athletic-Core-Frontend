@@ -69,7 +69,6 @@ const AllEvents = () => {
         `https://athletic-core-server-side.vercel.app/all-events?search=${searchTerm}`
       )
       .then((res) => {
-        console.log(res.data);
         setEvents(res.data);
       })
       .catch((error) => {

@@ -20,7 +20,6 @@ const ContactSection = () => {
     setIsSubmitting(true);
     
     setTimeout(() => {
-      console.log("Form submitted:", formData);
       setIsSubmitting(false);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });

@@ -100,7 +100,7 @@ const SingleEvent = () => {
         setBookedUserCount(res.data.count || 0);
       })
       .catch((error) => {
-        console.error("Error fetching attendee count:", error.message);
+        toast.error("Error fetching attendee count:", error.message);
       });
   }, [id]);
 
