@@ -19,6 +19,10 @@ const Home = () => {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
 
   return (
     <div>
