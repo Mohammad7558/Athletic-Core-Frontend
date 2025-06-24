@@ -1,83 +1,71 @@
-# 🏅 Athletic Event Management Website
+# 🏅 Athletic Event Management System
 
-A full-stack athletic event management platform built with **React**, **Tailwind CSS**, **Firebase**, and **MongoDB**. Users can register/login, create events, book them, and manage their activities in a smooth and secure way.
+![Project Banner](https://i.imgur.com/JqYXc3j.png)  
+*A full-stack platform for organizing and managing athletic events with real-time booking capabilities*
 
-> 🔗 **Live Website:** [Coming Soon](https://your-live-link.com)
-
----
-
-## 🚀 Features
-
-### ✅ Authentication System
-- Email/password login & registration
-- Google social login
-- Password validation: uppercase, lowercase, min. 6 characters
-- SweetAlert & Toast notifications for feedback
-- Registration fields: Name, Email, Photo URL, Password
+## 🌟 Live Demo  
+🔗 [https://assignment-11-client-sid-64337.web.app/](https://assignment-11-client-sid-64337.web.app/)
 
 ---
 
-### 🏠 Home Page
-- 🎞️ Banner Slider with 3+ event slides
-- 🌟 Featured Events: shows 6 upcoming events sorted by date
-- 🔘 "View Details" and "See All" buttons
-- ✨ Additional Sections: Testimonials, Popular Sports
+## 🚀 Main Features
+
+- Interactive home page with banner slider and featured events  
+- User authentication via Firebase (email/password + social login)  
+- JWT token-based protected routes  
+- Full event management: create, update, delete, and view events  
+- Real-time booking with duplicate booking prevention  
+- Responsive UI with smooth animations (Framer Motion)  
+- Bookings overview in multiple layouts (table & card)
 
 ---
 
-### 🔐 Protected Event Management (Private Routes)
+## 🛠 Main Technologies Used
 
-#### ➕ Create Event (`/create-event`)
-- Form fields:
-  - Event Name
-  - Event Type (dropdown: Swimming, Sprinting, Long Jump, etc.)
-  - Event Date
-  - Description
-  - Image URL
-- Auto-filled creator name and email
-- Stores to MongoDB on submit
-
-#### 📄 Event Details (`/events/:id`)
-- Full event information display
-- “Book Now” button stores the booking in database
-- Prevents duplicate bookings
-
-#### 📑 My Bookings (`/myBookings`)
-- Displays all events booked by the current user
-- Two views:
-  - 🧾 Table View
-  - 🧱 Card View
-- 🗑 Cancel booking with delete button
-
-#### 🧰 Manage Events (`/manageEvents`)
-- Events created by the logged-in user
-- 📝 Update button redirects to `/updateEvent/:id`
-- 🗑 Delete button removes event from DB and UI
-
-#### ✏️ Update Event (`/updateEvent/:id`)
-- Reuses event creation form
-- All fields editable **except user email**
-- Redirects to Manage Events page after successful update
+- **Frontend:** React 19, Tailwind CSS, Framer Motion, Firebase Authentication  
+- **Backend:** Node.js, Express.js, JWT Authentication, REST API  
+- **Database:** MongoDB Atlas  
+- **Hosting:** Firebase Hosting
 
 ---
 
-## 🧠 Additional Features
+## 📦 Dependencies
 
-- 🔍 Search events by name or location on Events page
-- 🔒 JWT Authentication for route protection
-- 🌐 Dynamic website title per route
-- 😵 Custom 404 Not Found page
-- ⏳ Loading Spinner for async operations
-- 🍞 Toast & SweetAlert for all actions
+### 🔹 Frontend (client)
+- react  
+- react-dom  
+- tailwindcss  
+- framer-motion  
+- firebase  
+- react-router-dom  
+- axios  
+
+### 🔸 Backend (server)
+- express  
+- mongoose  
+- jsonwebtoken  
+- dotenv  
+- cors  
+- bcryptjs  
 
 ---
 
-## ⚙️ Tech Stack
+## 💻 Local Installation Guide
 
-| Frontend | Backend | Auth & Hosting | Styling |
-|----------|---------|----------------|---------|
-| React 19 | Express.js | Firebase Auth + JWT | Tailwind CSS |
-| React Router v7 | MongoDB Atlas | Firebase Hosting | DaisyUI |
-| Axios |  |  | Framer Motion |
+### 🔧 Prerequisites
+
+- Node.js v16 or higher 👉 [Download](https://nodejs.org)  
+- npm v8 or higher (comes with Node.js)  
+- MongoDB Atlas account 👉 [Create one](https://www.mongodb.com/cloud/atlas)  
+- Firebase project 👉 [Create one](https://console.firebase.google.com)
 
 ---
+
+### 🧪 Steps to Run Locally
+
+#### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/athletic-event-management.git
+cd athletic-event-management
+
