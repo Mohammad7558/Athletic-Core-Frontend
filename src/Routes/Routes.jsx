@@ -12,6 +12,9 @@ import Register from "../Pages/Register/Register";
 import SingleEvent from "../Pages/SingleEvent/SingleEvent";
 import UpdateEvent from "../Pages/UpdateEvent/UpdateEvent";
 import PrivateRoutes from "./PrivateRoutes";
+import AboutUs from "../Pages/AboutUs/AboutUs";
+import Team from "../Pages/Team/Team";
+import BlogPage from "../Pages/BlogPage/BlogPage";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +25,18 @@ export const router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
+      },
+      {
+        path: '/about',
+        Component: AboutUs
+      },
+      {
+        path: '/team',
+        Component: Team
+      },
+      {
+        path: '/blog',
+        Component: BlogPage
       },
       {
         path: "/login",

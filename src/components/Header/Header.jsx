@@ -64,6 +64,9 @@ const Header = () => {
   const navItems = [
     { to: "/", icon: <HomeIcon />, label: "Home" },
     { to: "/all-events", icon: <EventsIcon />, label: "All Events" },
+    { to: "/about", icon: <EventsIcon />, label: "About Us" },
+    { to: "/team", icon: <EventsIcon />, label: "Our Heros" },
+    { to: "/blog", icon: <EventsIcon />, label: "Latest Post" },
     ...(user ? [{ to: "/add-event", icon: <AddEventIcon />, label: "Add Event" }] : [])
   ];
 
