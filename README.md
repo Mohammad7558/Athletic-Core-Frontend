@@ -1,6 +1,7 @@
 # 🏅 Athletic Event Management System
 
-![Project Banner](https://github.com/Mohammad7558/Athletic-Core/blob/main/assignment-11-client-sid-64337.web.app_.png)  
+![Project Banner](https://github.com/Mohammad7558/Athletic-Core/blob/main/assignment-11-client-sid-64337.web.app_.png)
+
 *A full-stack platform for organizing and managing athletic events with real-time booking capabilities*
 
 ## 🌟 Live Demo
