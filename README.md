@@ -4,7 +4,7 @@
 *A full-stack platform for organizing and managing athletic events with real-time booking capabilities*
 
 ## 🌟 Live Demo
-🔗 [(https://github.com/Mohammad7558/Athletic-Core-Frontend/blob/main/localhost_5173_.png)]
+🔗 [(https://assignment-11-client-sid-64337.web.app/)]
 
 ---
 
